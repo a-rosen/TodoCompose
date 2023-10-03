@@ -1,13 +1,17 @@
 package com.example.todocompose.database
 
+import android.util.Log
 import com.example.todocompose.models.TodoItem
 
 class InMemoryRepository: TodoRepository {
+    val listOfThings: MutableList<TodoItem?> = mutableListOf(null)
+
     override fun addItem(todoItem: TodoItem) {
-        TODO("Not yet implemented")
+        listOfThings.add(todoItem)
+        Log.d("annie", "inMemoryrepository listofthigns ${listOfThings}")
     }
 
-    override fun deleteItem(itemId: Int) {
+    override fun deleteItem(itemId: String) {
         TODO("Not yet implemented")
     }
 
@@ -15,7 +19,7 @@ class InMemoryRepository: TodoRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getOneItem(itemId: Int): TodoItem {
+    override fun getOneItem(itemId: String): TodoItem {
         TODO("Not yet implemented")
     }
 

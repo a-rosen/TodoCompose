@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
                 MainScreen(
                     state = mainScreenState,
                     viewModel = viewModel,
+                    listItems = mainScreenState.toDoListItems
                 )
             }
         }

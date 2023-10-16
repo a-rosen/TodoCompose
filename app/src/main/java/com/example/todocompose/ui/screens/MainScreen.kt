@@ -19,14 +19,12 @@ fun MainScreen(
     Column {
         InputField(
             onSubmit = {
-                viewModel.addItem(
-                    TodoItem(
-                        id = "todo",
-                        name = state.inputText,
-                        isChecked = false
-                    )
-                )
-            }
+                viewModel.onSubmitButtonClick()
+            },
+            onMezzoValueChange = {
+                viewModel.updateInputText(it)
+            },
+            displayedText = state.inputText
         )
 
         LazyColumn {
@@ -48,17 +46,17 @@ fun MainScreenPreview(
         MainScreenViewModel(),
         listOf(
             TodoItem(
-                "id1",
+                1234L,
                 "name1",
                 false
             ),
             TodoItem(
-                "id2",
+                5678L,
                 "name2",
                 false
             ),
             TodoItem(
-                "id3",
+                6743L,
                 "name3",
                 true
             )

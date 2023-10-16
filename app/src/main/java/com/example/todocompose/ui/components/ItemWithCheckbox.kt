@@ -51,7 +51,7 @@ fun ItemWithCheckbox(
 fun ItemWithCheckboxPreview() {
     ItemWithCheckbox(
         item = TodoItem(
-            "this is my id", "this is my name", isChecked = true
+            8974213L, "this is my name", isChecked = true
         )
     )
 

@@ -1,5 +1,6 @@
 package com.example.todocompose.ui.screens
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.database.InMemoryRepository
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class MainScreenViewModel : ViewModel() {
     private val _internalScreenStateFlow =
@@ -23,11 +25,26 @@ class MainScreenViewModel : ViewModel() {
         viewModelScope.launch {
             repository.dataFlow.collect {
                 _internalScreenStateFlow.update { oldValue ->
-                    MainScreenState(oldValue.inputText, it)
+                    MainScreenState("", it)
                 }
             }
         }
+    }
 
+    fun updateInputText(newText: String) {
+        _internalScreenStateFlow.update { oldValue ->
+            MainScreenState(newText, oldValue.toDoListItems)
+        }
+    }
+
+    fun onSubmitButtonClick() {
+        val theNewTodoItem = TodoItem(
+            id = Random.nextLong(),
+            name = _internalScreenStateFlow.value.inputText,
+            isChecked = false
+        )
+
+        repository.addItem(theNewTodoItem)
     }
 
     fun addItem(item: TodoItem) {

@@ -6,23 +6,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputField(
-    onSubmit: () -> Unit
+    onSubmit: () -> Unit,
+    onMezzoValueChange: (String) -> Unit,
+    displayedText: String
 ) {
     Row {
-        var text by remember { mutableStateOf("Texty text") }
-
         TextField(
-            value = text,
-            onValueChange = { text = it },
+            value = displayedText,
+            onValueChange = { onMezzoValueChange(it) },
             label = { Text("ADD UR ITEM LOL") }
         )
 
@@ -38,5 +34,5 @@ fun InputField(
 @Preview
 @Composable
 fun InputFieldPreview() {
-    InputField(onSubmit = {})
+    InputField(onSubmit = {}, onMezzoValueChange = {}, displayedText = "Preview")
 }

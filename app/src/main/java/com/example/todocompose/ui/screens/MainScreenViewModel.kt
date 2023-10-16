@@ -5,24 +5,35 @@ import com.example.todocompose.database.InMemoryRepository
 import com.example.todocompose.database.TodoRepository
 import com.example.todocompose.models.TodoItem
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
-class MainScreenViewModel: ViewModel() {
-    private val _stateFlow = MutableStateFlow(value = MainScreenState.EMPTY)
-    val stateFlow = _stateFlow.asStateFlow()
+class MainScreenViewModel : ViewModel() {
+    private val _internalScreenStateFlow = MutableStateFlow<MainScreenState>(value = MainScreenState.EMPTY)
+    val screenStateFlow: StateFlow<MainScreenState> = _internalScreenStateFlow.asStateFlow()
 
-    var repository: TodoRepository? = InMemoryRepository()
+    var repository: TodoRepository = InMemoryRepository()
+
+    // init keyword means: run this whenever an instance of this class is constructed
+    init {
+        repository.dataFlow.collect {
+            //todo: fix this
+            _internalScreenStateFlow.update { oldValue ->
+                MainScreenState(oldValue.inputText, it)
+            }
+        }
+    }
 
     fun addItem(item: TodoItem) {
-        repository?.addItem(item)
-        // TODO: where do we update state with the text field's value?
+        repository.addItem(item)
     }
 
     fun deleteItem(itemId: String) {
-        repository?.deleteItem(itemId)
+        repository.deleteItem(itemId)
     }
 
     fun getAllItems() {
-        repository?.getAllItems()
+        repository.getAllItems()
     }
  }

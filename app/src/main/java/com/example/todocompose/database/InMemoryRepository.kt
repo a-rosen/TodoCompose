@@ -2,13 +2,22 @@ package com.example.todocompose.database
 
 import android.util.Log
 import com.example.todocompose.models.TodoItem
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class InMemoryRepository: TodoRepository {
-    val listOfThings: MutableList<TodoItem?> = mutableListOf(null)
+    private val _internalDataFlow = MutableStateFlow<List<TodoItem>>(value = listOf())
+    override val dataFlow = _internalDataFlow.asStateFlow()
 
     override fun addItem(todoItem: TodoItem) {
-        listOfThings.add(todoItem)
-        Log.d("annie", "inMemoryrepository listofthigns ${listOfThings}")
+        val newList = _internalDataFlow.value + listOf(todoItem)
+
+        _internalDataFlow.update {
+            newList
+        }
+
+        Log.d("annie", "inMemoryrepository listofthigns ${newList}")
     }
 
     override fun deleteItem(itemId: String) {

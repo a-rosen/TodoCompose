@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TodoComposeTheme {
-                val mainScreenState by viewModel.stateFlow.collectAsState()
+                val mainScreenState by viewModel.screenStateFlow.collectAsState()
 
                 MainScreen(
                     state = mainScreenState,

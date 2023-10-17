@@ -45,16 +45,22 @@ class MainScreenViewModel : ViewModel() {
 
         repository.addItem(newTodoItem)
     }
+    fun toggleChecked(itemToChange: TodoItem) {
+        _internalScreenStateFlow.update { oldValue ->
+            val oldListItems = oldValue.toDoListItems
 
-    fun addItem(item: TodoItem) {
-        repository.addItem(item)
-    }
+            val newListItems = oldListItems
+                .map { oldItem ->
+                    if (oldItem == itemToChange) {
+                        oldItem.copy(isChecked = !oldItem.isChecked)
+                    } else {
+                        oldItem
+                    }
+                }
 
-    fun deleteItem(itemId: String) {
-        repository.deleteItem(itemId)
-    }
-
-    fun getAllItems() {
-        repository.getAllItems()
+            MainScreenState(oldValue.inputText, newListItems)
+        }
     }
 }
+
+//TODO: Get the repository to do this (honestly we will probably just copy and rename as appropriate

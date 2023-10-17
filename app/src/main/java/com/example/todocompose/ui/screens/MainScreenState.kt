@@ -4,7 +4,7 @@ import com.example.todocompose.models.TodoItem
 
 data class MainScreenState(
     val inputText: String,
-    val toDoListItems: List<TodoItem>
+    val toDoListItems: List<TodoItem>,
 
 ) {
     companion object {

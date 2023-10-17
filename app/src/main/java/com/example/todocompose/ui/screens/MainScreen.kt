@@ -21,7 +21,7 @@ fun MainScreen(
             onSubmit = {
                 viewModel.onSubmitButtonClick()
             },
-            onMezzoValueChange = {
+            onInputValueChange = {
                 viewModel.updateInputText(it)
             },
             displayedText = state.inputText

@@ -31,10 +31,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// a list of items
-// each item has a checkbox next to it
-// the checkbox should be able to be checked and unchecked; appearance of item should change when this happens
-// interface for adding items to the list and removing items from the list
-// items need to persist through invocations of the app, need to be stored someplace
-
 

@@ -12,13 +12,13 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun InputField(
     onSubmit: () -> Unit,
-    onMezzoValueChange: (String) -> Unit,
+    onInputValueChange: (String) -> Unit,
     displayedText: String
 ) {
     Row {
         TextField(
             value = displayedText,
-            onValueChange = { onMezzoValueChange(it) },
+            onValueChange = { onInputValueChange(it) },
             label = { Text("ADD UR ITEM LOL") }
         )
 
@@ -34,5 +34,5 @@ fun InputField(
 @Preview
 @Composable
 fun InputFieldPreview() {
-    InputField(onSubmit = {}, onMezzoValueChange = {}, displayedText = "Preview")
+    InputField(onSubmit = {}, onInputValueChange = {}, displayedText = "Preview")
 }

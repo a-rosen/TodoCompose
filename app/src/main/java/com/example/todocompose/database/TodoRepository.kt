@@ -13,4 +13,6 @@ interface TodoRepository {
     fun getAllItems(): List<TodoItem>
 
     fun getOneItem(itemId: String): TodoItem
+
+    fun toggleCheckedItem(todoItem: TodoItem)
 }

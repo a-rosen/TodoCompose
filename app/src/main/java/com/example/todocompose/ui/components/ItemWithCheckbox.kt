@@ -43,7 +43,6 @@ fun ItemWithCheckbox(
         )
         Text(
             text = item.name,
-            // can i incorporate theming into this? this into the theme?
             style = TextStyle(
                 textDecoration = if (item.isChecked) {
                     TextDecoration.LineThrough

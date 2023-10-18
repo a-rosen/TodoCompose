@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.todocompose.models.TodoItem
+import com.example.todocompose.database.models.ItemData
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
 
@@ -24,7 +24,7 @@ import com.example.todocompose.ui.components.ItemWithCheckbox
 fun MainScreen(
     state: MainScreenState,
     viewModel: MainScreenViewModel,
-    listItems: List<TodoItem>
+    listItems: List<ItemData>
 ) {
     Column {
         CenterAlignedTopAppBar(
@@ -75,17 +75,17 @@ fun MainScreenPreview(
         MainScreenState("inputText", listOf()),
         MainScreenViewModel(),
         listOf(
-            TodoItem(
+            ItemData(
                 1234L,
                 "name1",
                 false
             ),
-            TodoItem(
+            ItemData(
                 5678L,
                 "name2",
                 false
             ),
-            TodoItem(
+            ItemData(
                 6743L,
                 "name3",
                 true
@@ -93,3 +93,7 @@ fun MainScreenPreview(
         )
     )
 }
+
+// "FUN UI CHALLENGES"
+// the add button gets shorter and shorter the more text you type in LOL
+// character limit for to-do items???

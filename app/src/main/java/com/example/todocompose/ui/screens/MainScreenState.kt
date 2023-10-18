@@ -1,12 +1,12 @@
 package com.example.todocompose.ui.screens
 
-import com.example.todocompose.models.TodoItem
+import com.example.todocompose.database.models.ItemData
 
 data class MainScreenState(
     val inputText: String,
-    val toDoListItems: List<TodoItem>,
+    val toDoListItems: List<ItemData>,
 
-) {
+    ) {
     companion object {
         val EMPTY = MainScreenState(
             inputText = "",

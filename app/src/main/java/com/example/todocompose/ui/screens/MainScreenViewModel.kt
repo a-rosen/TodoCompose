@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.database.InMemoryRepository
 import com.example.todocompose.database.TodoRepository
-import com.example.todocompose.models.TodoItem
+import com.example.todocompose.database.models.ItemData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,15 +37,15 @@ class MainScreenViewModel : ViewModel() {
     }
 
     fun onSubmitButtonClick() {
-        val newTodoItem = TodoItem(
+        val newTodoItem = ItemData(
             id = Random.nextLong(),
             name = _internalScreenStateFlow.value.inputText,
-            isChecked = false
+            completed = false
         )
 
         repository.addItem(newTodoItem)
     }
-    fun toggleChecked(itemToChange: TodoItem) {
-        repository.toggleCheckedItem(itemToChange)
+    fun toggleChecked(itemToChange: ItemData) {
+        repository.toggleCompleted(itemToChange)
     }
 }

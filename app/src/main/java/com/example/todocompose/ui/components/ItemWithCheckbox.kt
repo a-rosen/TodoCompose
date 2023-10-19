@@ -1,5 +1,6 @@
 package com.example.todocompose.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,8 +26,8 @@ import com.example.todocompose.database.models.ItemData
 fun ItemWithCheckbox(
     item: ItemData,
     onBoxClicked: () -> Unit,
+    onDeleteClicked: () -> Unit,
 ) {
-
     Row(
         Modifier
             .fillMaxWidth()
@@ -41,7 +42,7 @@ fun ItemWithCheckbox(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
 
-        ) {
+    ) {
         Checkbox(
             checked = item.completed,
             onCheckedChange = null,
@@ -62,8 +63,10 @@ fun ItemWithCheckbox(
         Icon(
             imageVector = Icons.Filled.Delete,
             contentDescription = "delete",
+            modifier = Modifier
+                .clickable(onClick = onDeleteClicked)
 
-            )
+        )
     }
 }
 
@@ -74,7 +77,8 @@ fun ItemWithCheckboxPreview() {
         item = ItemData(
             8974213L, "this is my name", completed = true
         ),
-        onBoxClicked = {}
+        onBoxClicked = {},
+        onDeleteClicked = {},
     )
 
 }

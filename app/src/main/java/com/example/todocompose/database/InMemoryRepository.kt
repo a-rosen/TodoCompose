@@ -17,8 +17,13 @@ class InMemoryRepository : TodoRepository {
         }
     }
 
-    override fun deleteItem(itemId: String) {
-        TODO("Not yet implemented")
+    override fun deleteItem(todoItem: ItemData) {
+        val newList = _internalDataFlow.value
+            .filter { it != todoItem }
+
+        _internalDataFlow.update {
+            newList
+        }
     }
 
     override fun getAllItems(): List<ItemData> {

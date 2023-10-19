@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -26,45 +28,56 @@ fun MainScreen(
     viewModel: MainScreenViewModel,
     listItems: List<ItemData>
 ) {
-    Column {
-        CenterAlignedTopAppBar(
-            title = {
-                Text(
-                    "LIST OF THINGS TO DO",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "LIST OF THINGS TO DO",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
                 )
-            },
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
             )
-        )
-
-        InputField(
-            onSubmit = {
-                viewModel.onSubmitButtonClick()
-            },
-            onInputValueChange = {
-                viewModel.updateInputText(it)
-            },
-            displayedText = state.inputText,
-            modifier = Modifier.padding(8.dp)
-        )
-
-        LazyColumn {
-            items(listItems) { item ->
-                ItemWithCheckbox(
-                    item = item,
-                    onBoxClicked = {
-                        viewModel.toggleChecked(item)
-                    }
+        },
+        bottomBar = {
+            BottomAppBar {
+                InputField(
+                    onSubmit = {
+                        viewModel.onSubmitButtonClick()
+                    },
+                    onInputValueChange = {
+                        viewModel.updateInputText(it)
+                    },
+                    displayedText = state.inputText,
+                    modifier = Modifier.padding(8.dp)
                 )
             }
         }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+        ) {
+            LazyColumn {
+                items(listItems) { item ->
+                    ItemWithCheckbox(
+                        item = item,
+                        onBoxClicked = {
+                            viewModel.toggleChecked(item)
+                        },
+                        onDeleteClicked = {
+                            viewModel.onDeleteButtonClick(item)
+                        }
+                    )
+                }
+            }
+        }
     }
-
-
 }
 
 @Preview
@@ -93,7 +106,3 @@ fun MainScreenPreview(
         )
     )
 }
-
-// "FUN UI CHALLENGES"
-// the add button gets shorter and shorter the more text you type in LOL
-// character limit for to-do items???

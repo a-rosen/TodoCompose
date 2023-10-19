@@ -45,6 +45,10 @@ class MainScreenViewModel : ViewModel() {
 
         repository.addItem(newTodoItem)
     }
+
+    fun onDeleteButtonClick(itemToDelete: ItemData) {
+        repository.deleteItem(itemToDelete)
+    }
     fun toggleChecked(itemToChange: ItemData) {
         repository.toggleCompleted(itemToChange)
     }

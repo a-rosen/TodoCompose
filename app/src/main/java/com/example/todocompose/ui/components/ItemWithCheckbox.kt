@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -20,13 +21,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.todocompose.database.models.ItemData
+import com.example.todocompose.ui.models.TodoUiItem
+
+
+// should i separate this into two components, one with text and one with input field?
 
 @Composable
 fun ItemWithCheckbox(
-    item: ItemData,
+    item: TodoUiItem,
     onBoxClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
+    onEditClicked: () -> Unit,
 ) {
     Row(
         Modifier
@@ -47,19 +52,35 @@ fun ItemWithCheckbox(
             checked = item.completed,
             onCheckedChange = null,
         )
-        Text(
-            text = item.name,
-            style = TextStyle(
-                textDecoration = if (item.completed) {
-                    TextDecoration.LineThrough
-                } else {
-                    null
-                }
-            ),
+        if (item.isBeingModified) {
+            InputField(
+                onSubmit = {  },
+                onInputValueChange = {},
+                displayedText = item.name
+            )
+        } else {
+            Text(
+                text = item.name,
+                style = TextStyle(
+                    textDecoration = if (item.completed) {
+                        TextDecoration.LineThrough
+                    } else {
+                        null
+                    }
+                ),
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .weight(2f)
+            )
+        }
+        Icon(
+            imageVector = Icons.Filled.Edit,
+            contentDescription = "edit",
             modifier = Modifier
-                .padding(start = 16.dp)
-                .weight(2f)
+                .clickable(onClick = onEditClicked)
+
         )
+
         Icon(
             imageVector = Icons.Filled.Delete,
             contentDescription = "delete",
@@ -74,11 +95,15 @@ fun ItemWithCheckbox(
 @Composable
 fun ItemWithCheckboxPreview() {
     ItemWithCheckbox(
-        item = ItemData(
-            8974213L, "this is my name", completed = true
+        item = TodoUiItem(
+            8974213L,
+            "this is my name",
+            completed = true,
+            isBeingModified = true,
         ),
         onBoxClicked = {},
         onDeleteClicked = {},
+        onEditClicked = {}
     )
 
 }

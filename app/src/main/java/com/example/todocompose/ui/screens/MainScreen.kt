@@ -1,6 +1,8 @@
 package com.example.todocompose.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,17 +18,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.todocompose.database.models.ItemData
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
+import com.example.todocompose.ui.models.TodoUiItem
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun MainScreen(
     state: MainScreenState,
     viewModel: MainScreenViewModel,
-    listItems: List<ItemData>
 ) {
     Scaffold(
         topBar = {
@@ -62,9 +63,10 @@ fun MainScreen(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
+                .consumeWindowInsets(innerPadding)
         ) {
             LazyColumn {
-                items(listItems) { item ->
+                items(state.toDoListItems) { item ->
                     ItemWithCheckbox(
                         item = item,
                         onBoxClicked = {
@@ -72,6 +74,9 @@ fun MainScreen(
                         },
                         onDeleteClicked = {
                             viewModel.onDeleteButtonClick(item)
+                        },
+                        onEditClicked = {
+                            viewModel.onEditButtonClick(item)
                         }
                     )
                 }
@@ -85,24 +90,29 @@ fun MainScreen(
 fun MainScreenPreview(
 ) {
     MainScreen(
-        MainScreenState("inputText", listOf()),
-        MainScreenViewModel(),
-        listOf(
-            ItemData(
-                1234L,
-                "name1",
-                false
-            ),
-            ItemData(
-                5678L,
-                "name2",
-                false
-            ),
-            ItemData(
-                6743L,
-                "name3",
-                true
+        MainScreenState(
+            "inputText",
+            listOf(
+                TodoUiItem(
+                    1234L,
+                    "name1",
+                    false,
+                    isBeingModified = false
+                ),
+                TodoUiItem(
+                    5678L,
+                    "name2",
+                    false,
+                    isBeingModified = false
+                ),
+                TodoUiItem(
+                    6743L,
+                    "name3",
+                    true,
+                    isBeingModified = false
+                )
             )
-        )
+        ),
+        MainScreenViewModel(),
     )
 }

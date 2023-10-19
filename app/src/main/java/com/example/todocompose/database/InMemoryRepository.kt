@@ -1,15 +1,15 @@
 package com.example.todocompose.database
 
-import com.example.todocompose.database.models.ItemData
+import com.example.todocompose.database.models.TodoDataRecord
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class InMemoryRepository : TodoRepository {
-    private val _internalDataFlow = MutableStateFlow<List<ItemData>>(value = listOf())
+    private val _internalDataFlow = MutableStateFlow<List<TodoDataRecord>>(value = listOf())
     override val dataFlow = _internalDataFlow.asStateFlow()
 
-    override fun addItem(todoItem: ItemData) {
+    override fun addItem(todoItem: TodoDataRecord) {
         val newList = _internalDataFlow.value + listOf(todoItem)
 
         _internalDataFlow.update {
@@ -17,30 +17,39 @@ class InMemoryRepository : TodoRepository {
         }
     }
 
-    override fun deleteItem(todoItem: ItemData) {
+    override fun deleteItem(id: Long) {
         val newList = _internalDataFlow.value
-            .filter { it != todoItem }
+            .filter { it.id != id }
 
         _internalDataFlow.update {
             newList
         }
     }
 
-    override fun getAllItems(): List<ItemData> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getOneItem(itemId: String): ItemData {
-        TODO("Not yet implemented")
-    }
-
-    override fun toggleCompleted(todoItem: ItemData) {
+    override fun updateItem(id: Long, newItemName: String) {
         _internalDataFlow.update { oldState ->
             val oldListItems = _internalDataFlow.value
 
             val newListItems = oldListItems
                 .map { oldItem ->
-                    if (oldItem == todoItem) {
+                    if (oldItem.id == id) {
+                        oldItem.copy(name = newItemName)
+                    } else {
+                        oldItem
+                    }
+                }
+
+            return@update newListItems
+        }
+    }
+
+    override fun toggleCompleted(id: Long) {
+        _internalDataFlow.update { oldState ->
+            val oldListItems = _internalDataFlow.value
+
+            val newListItems = oldListItems
+                .map { oldItem ->
+                    if (oldItem.id == id) {
                         oldItem.copy(completed = !oldItem.completed)
                     } else {
                         oldItem

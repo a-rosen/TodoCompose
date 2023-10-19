@@ -1,6 +1,6 @@
 package com.example.todocompose.database.models
 
-data class ItemData(
+data class TodoDataRecord(
     val id: Long,
     val name: String,
     val completed: Boolean

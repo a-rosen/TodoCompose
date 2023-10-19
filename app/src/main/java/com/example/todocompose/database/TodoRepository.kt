@@ -1,18 +1,17 @@
 package com.example.todocompose.database
 
-import com.example.todocompose.database.models.ItemData
+import com.example.todocompose.database.models.TodoDataRecord
 import kotlinx.coroutines.flow.StateFlow
 
 interface TodoRepository {
-    val dataFlow : StateFlow<List<ItemData>>
+    val dataFlow : StateFlow<List<TodoDataRecord>>
 
-    fun addItem(todoItem: ItemData)
+    fun addItem(todoItem: TodoDataRecord)
 
-    fun deleteItem(todoItem: ItemData)
+    fun deleteItem(id: Long)
 
-    fun getAllItems(): List<ItemData>
+    fun updateItem(id: Long, newItemName: String)
 
-    fun getOneItem(itemId: String): ItemData
+    fun toggleCompleted(id: Long)
 
-    fun toggleCompleted(todoItem: ItemData)
 }

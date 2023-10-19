@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.database.InMemoryRepository
 import com.example.todocompose.database.TodoRepository
-import com.example.todocompose.database.models.ItemData
+import com.example.todocompose.database.models.TodoDataRecord
+import com.example.todocompose.ui.models.TodoUiItem
+import com.example.todocompose.ui.models.asTodoUiItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,9 +24,12 @@ class MainScreenViewModel : ViewModel() {
     // init keyword means: run this whenever an instance of this class is constructed
     init {
         viewModelScope.launch {
-            repository.dataFlow.collect {
+            repository.dataFlow.collect { records ->
                 _internalScreenStateFlow.update { oldValue ->
-                    MainScreenState("", it)
+                    MainScreenState(
+                        "",
+                        records.map { it.asTodoUiItem() }
+                    )
                 }
             }
         }
@@ -37,7 +42,7 @@ class MainScreenViewModel : ViewModel() {
     }
 
     fun onSubmitButtonClick() {
-        val newTodoItem = ItemData(
+        val newTodoItem = TodoDataRecord(
             id = Random.nextLong(),
             name = _internalScreenStateFlow.value.inputText,
             completed = false
@@ -46,10 +51,20 @@ class MainScreenViewModel : ViewModel() {
         repository.addItem(newTodoItem)
     }
 
-    fun onDeleteButtonClick(itemToDelete: ItemData) {
-        repository.deleteItem(itemToDelete)
+    fun onDeleteButtonClick(itemToDelete: TodoUiItem) {
+        repository.deleteItem(itemToDelete.id)
     }
-    fun toggleChecked(itemToChange: ItemData) {
-        repository.toggleCompleted(itemToChange)
+
+    fun onEditButtonClick(itemToUpdate: TodoUiItem) {
+//        //TODO: the edit button should change whether the UI item is "being updated"
+        // when it's being updated, it should rerender with the text as a textinput and some kind of button
+        // that button will then toggle "done editing" and deal with the text submission to database
+        // but the "edit button click" only deals with the UI
+
+
+    }
+
+    fun toggleChecked(itemToChange: TodoUiItem) {
+        repository.toggleCompleted(itemToChange.id)
     }
 }

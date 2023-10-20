@@ -77,6 +77,12 @@ fun MainScreen(
                         },
                         onEditClicked = {
                             viewModel.onEditButtonClick(item)
+                        },
+                        onTextChanged = {
+                            viewModel.updateItemText(item.id, it)
+                        },
+                        onEditSubmitted = {
+                            viewModel.onUpdateSubmit(item)
                         }
                     )
                 }

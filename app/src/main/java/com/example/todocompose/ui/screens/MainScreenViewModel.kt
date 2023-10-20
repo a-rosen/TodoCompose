@@ -41,6 +41,26 @@ class MainScreenViewModel : ViewModel() {
         }
     }
 
+    fun updateItemText(id: Long, newText: String) {
+        _internalScreenStateFlow.update { oldState ->
+            val oldListItems = oldState.toDoListItems
+
+            val newListItems = oldListItems
+                .map { oldItem ->
+                    if (oldItem.id == id) {
+                        oldItem.copy(name = newText)
+                    } else {
+                        oldItem
+                    }
+                }
+            return@update MainScreenState(oldState.inputText, newListItems)
+        }
+    }
+
+    fun onUpdateSubmit(itemToUpdate: TodoUiItem) {
+        repository.updateItem(itemToUpdate.id, itemToUpdate.name)
+    }
+
     fun onSubmitButtonClick() {
         val newTodoItem = TodoDataRecord(
             id = Random.nextLong(),
@@ -56,13 +76,22 @@ class MainScreenViewModel : ViewModel() {
     }
 
     fun onEditButtonClick(itemToUpdate: TodoUiItem) {
-//        //TODO: the edit button should change whether the UI item is "being updated"
-        // when it's being updated, it should rerender with the text as a textinput and some kind of button
-        // that button will then toggle "done editing" and deal with the text submission to database
-        // but the "edit button click" only deals with the UI
+        _internalScreenStateFlow.update { oldState ->
+            val oldListItems = oldState.toDoListItems
 
+            val newListItems = oldListItems
+                .map { oldItem ->
+                    if (oldItem.id == itemToUpdate.id) {
+                        oldItem.copy(isBeingModified = true)
+                    } else {
+                        oldItem
+                    }
+                }
 
+            return@update MainScreenState(oldState.inputText, newListItems)
+        }
     }
+
 
     fun toggleChecked(itemToChange: TodoUiItem) {
         repository.toggleCompleted(itemToChange.id)

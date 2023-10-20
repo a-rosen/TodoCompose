@@ -4,9 +4,9 @@ import com.example.todocompose.database.models.TodoDataRecord
 
 data class TodoUiItem(
     val id: Long,
-    val name: String,
-    val completed: Boolean,
-    val isBeingModified: Boolean,
+    var name: String,
+    var completed: Boolean,
+    var isBeingModified: Boolean,
 )
 
 fun TodoDataRecord.asTodoUiItem() = TodoUiItem(

@@ -23,15 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.todocompose.ui.models.TodoUiItem
 
-
-// should i separate this into two components, one with text and one with input field?
-
 @Composable
 fun ItemWithCheckbox(
     item: TodoUiItem,
     onBoxClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
     onEditClicked: () -> Unit,
+    onTextChanged: (String) -> Unit,
+    onEditSubmitted: () -> Unit,
 ) {
     Row(
         Modifier
@@ -54,8 +53,8 @@ fun ItemWithCheckbox(
         )
         if (item.isBeingModified) {
             InputField(
-                onSubmit = {  },
-                onInputValueChange = {},
+                onSubmit = { onEditSubmitted()  },
+                onInputValueChange = { onTextChanged(it) },
                 displayedText = item.name
             )
         } else {
@@ -103,7 +102,9 @@ fun ItemWithCheckboxPreview() {
         ),
         onBoxClicked = {},
         onDeleteClicked = {},
-        onEditClicked = {}
+        onEditClicked = {},
+        onTextChanged = {},
+        onEditSubmitted = {}
     )
 
 }

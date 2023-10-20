@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
@@ -50,12 +51,15 @@ fun ItemWithCheckbox(
         Checkbox(
             checked = item.completed,
             onCheckedChange = null,
+            modifier = Modifier
+                .scale(2f)
+                .padding(end = 8.dp)
         )
         if (item.isBeingModified) {
             InputField(
                 onSubmit = { onEditSubmitted()  },
                 onInputValueChange = { onTextChanged(it) },
-                displayedText = item.name
+                displayedText = item.name,
             )
         } else {
             Text(

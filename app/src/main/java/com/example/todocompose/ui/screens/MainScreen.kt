@@ -65,7 +65,8 @@ fun MainScreen(
                 .padding(innerPadding)
                 .consumeWindowInsets(innerPadding)
         ) {
-            LazyColumn {
+            LazyColumn(modifier = Modifier
+                .weight(1f, true))  {
                 items(state.toDoListItems) { item ->
                     ItemWithCheckbox(
                         item = item,

@@ -12,18 +12,25 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
+
 fun InputField(
     onSubmit: () -> Unit,
     onInputValueChange: (String) -> Unit,
     displayedText: String,
     modifier: Modifier = Modifier
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -39,7 +46,10 @@ fun InputField(
         )
 
         ElevatedButton(
-            onClick = { onSubmit() },
+            onClick = {
+                onSubmit()
+                keyboardController?.hide()
+            },
             modifier = modifier
                 .wrapContentSize(),
             shape = CircleShape,

@@ -40,9 +40,10 @@ fun InputField(
         OutlinedTextField(
             value = displayedText,
             onValueChange = { onInputValueChange(it) },
-            label = { Text("ADD UR ITEM LOL") },
+            label = { Text("Task") },
             modifier = Modifier
                 .weight(1f)
+                .padding(end = 4.dp)
         )
 
         ElevatedButton(

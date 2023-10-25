@@ -30,4 +30,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
+// why doesn't edit "add" button work if you don't change the text inside input field?

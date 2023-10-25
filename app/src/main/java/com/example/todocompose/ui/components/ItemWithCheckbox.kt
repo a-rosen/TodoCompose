@@ -81,6 +81,7 @@ fun ItemWithCheckbox(
             contentDescription = "edit",
             modifier = Modifier
                 .clickable(onClick = onEditClicked)
+                .padding(8.dp)
 
         )
 
@@ -89,6 +90,8 @@ fun ItemWithCheckbox(
             contentDescription = "delete",
             modifier = Modifier
                 .clickable(onClick = onDeleteClicked)
+                .padding(8.dp)
+
 
         )
     }

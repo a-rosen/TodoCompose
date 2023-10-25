@@ -21,7 +21,6 @@ class MainScreenViewModel : ViewModel() {
 
     private val repository: TodoRepository = InMemoryRepository()
 
-
     // init keyword means: run this whenever an instance of this class is constructed
     init {
         viewModelScope.launch {
@@ -58,7 +57,22 @@ class MainScreenViewModel : ViewModel() {
         }
     }
 
+    // how to refactor this so that EITHER the repository is updated OR isbeingmodified is updated manually?
     fun onUpdateSubmit(itemToUpdate: TodoUiItem) {
+        _internalScreenStateFlow.update { oldState ->
+            val oldListItems = oldState.toDoListItems
+
+            val newListItems = oldListItems
+                .map { oldItem ->
+                    if (oldItem.id == itemToUpdate.id) {
+                        oldItem.copy(isBeingModified = false)
+                    } else {
+                        oldItem
+                    }
+                }
+
+            return@update MainScreenState(oldState.inputText, newListItems)
+        }
         repository.updateItem(itemToUpdate.id, itemToUpdate.name)
     }
 

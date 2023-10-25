@@ -57,7 +57,7 @@ fun ItemWithCheckbox(
         )
         if (item.isBeingModified) {
             InputField(
-                onSubmit = { onEditSubmitted()  },
+                onSubmit = { onEditSubmitted() },
                 onInputValueChange = { onTextChanged(it) },
                 displayedText = item.name,
             )

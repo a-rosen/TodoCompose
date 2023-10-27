@@ -49,12 +49,12 @@ fun MainScreen(
             BottomAppBar {
                 InputField(
                     onSubmit = {
-                        viewModel.onSubmitButtonClick()
+                        viewModel.onAddNewItemButtonClick()
                     },
                     onInputValueChange = {
-                        viewModel.updateInputText(it)
+                        viewModel.updateNewItemInputText(it)
                     },
-                    displayedText = state.inputText,
+                    displayedText = state.newItemInputText,
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -79,11 +79,11 @@ fun MainScreen(
                         onEditClicked = {
                             viewModel.onEditButtonClick(item)
                         },
-                        onTextChanged = {
+                        onItemTextChanged = {
                             viewModel.updateItemText(item.id, it)
                         },
                         onEditSubmitted = {
-                            viewModel.onUpdateSubmit(item)
+                            viewModel.onUpdateItemSubmit(item)
                         }
                     )
                 }

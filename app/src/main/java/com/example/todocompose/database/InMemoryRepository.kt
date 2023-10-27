@@ -1,5 +1,6 @@
 package com.example.todocompose.database
 
+import android.util.Log
 import com.example.todocompose.database.models.TodoDataRecord
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +28,10 @@ class InMemoryRepository : TodoRepository {
     }
 
     override fun updateItem(id: Long, newItemName: String) {
+        Log.d("annie", "in repo updateItem before flow: id is $id, newIN is $newItemName")
+
         _internalDataFlow.update { oldState ->
+            Log.d("annie", "in repo updateItem: id is $id, newIN is $newItemName")
             val oldListItems = _internalDataFlow.value
 
             val newListItems = oldListItems
@@ -38,7 +42,6 @@ class InMemoryRepository : TodoRepository {
                         oldItem
                     }
                 }
-
             return@update newListItems
         }
     }

@@ -1,5 +1,6 @@
 package com.example.todocompose.ui.screens
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.database.InMemoryRepository
@@ -35,7 +36,7 @@ class MainScreenViewModel : ViewModel() {
         }
     }
 
-    fun updateInputText(newText: String) {
+    fun updateNewItemInputText(newText: String) {
         _internalScreenStateFlow.update { oldState ->
             MainScreenState(newText, oldState.toDoListItems)
         }
@@ -53,37 +54,34 @@ class MainScreenViewModel : ViewModel() {
                         oldItem
                     }
                 }
-            return@update MainScreenState(oldState.inputText, newListItems)
+            return@update MainScreenState(oldState.newItemInputText, newListItems)
         }
     }
 
-    // how to refactor this so that EITHER the repository is updated OR isbeingmodified is updated manually?
-    fun onUpdateSubmit(itemToUpdate: TodoUiItem) {
-        _internalScreenStateFlow.update { oldState ->
-            val oldListItems = oldState.toDoListItems
+    fun onUpdateItemSubmit(itemToUpdate: TodoUiItem) {
+        val oldMatchingItem = repository
+            .dataFlow
+            .value
+            .firstOrNull { it.id == itemToUpdate.id } ?: return
 
-            val newListItems = oldListItems
-                .map { oldItem ->
-                    if (oldItem.id == itemToUpdate.id) {
-                        oldItem.copy(isBeingModified = false)
-                    } else {
-                        oldItem
-                    }
-                }
-
-            return@update MainScreenState(oldState.inputText, newListItems)
+        if (oldMatchingItem.name != itemToUpdate.name) {
+            repository.updateItem(itemToUpdate.id, itemToUpdate.name)
+        } else {
+            toggleIsBeingModified(itemToUpdate)
         }
-        repository.updateItem(itemToUpdate.id, itemToUpdate.name)
     }
 
-    fun onSubmitButtonClick() {
+    fun onAddNewItemButtonClick() {
         val newTodoItem = TodoDataRecord(
             id = Random.nextLong(),
-            name = _internalScreenStateFlow.value.inputText,
+            name = _internalScreenStateFlow.value.newItemInputText,
             completed = false
         )
+        Log.d("annie", "onAddNewButtonClick state items before rep: ${_internalScreenStateFlow.value.toDoListItems}")
 
         repository.addItem(newTodoItem)
+        Log.d("annie", "onAddNewButtonClick state items after rep: ${_internalScreenStateFlow.value.toDoListItems}")
+
     }
 
     fun onDeleteButtonClick(itemToDelete: TodoUiItem) {
@@ -103,12 +101,28 @@ class MainScreenViewModel : ViewModel() {
                     }
                 }
 
-            return@update MainScreenState(oldState.inputText, newListItems)
+            return@update MainScreenState(oldState.newItemInputText, newListItems)
         }
     }
 
-
     fun toggleChecked(itemToChange: TodoUiItem) {
         repository.toggleCompleted(itemToChange.id)
+    }
+
+    private fun toggleIsBeingModified(itemToUpdate: TodoUiItem) {
+        _internalScreenStateFlow.update { oldState ->
+            val oldListItems = oldState.toDoListItems
+
+            val newListItems = oldListItems
+                .map { oldItem ->
+                    if (oldItem.id == itemToUpdate.id) {
+                        oldItem.copy(isBeingModified = false)
+                    } else {
+                        oldItem
+                    }
+                }
+
+            return@update MainScreenState(oldState.newItemInputText, newListItems)
+        }
     }
 }

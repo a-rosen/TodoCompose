@@ -30,7 +30,7 @@ fun ItemWithCheckbox(
     onBoxClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
     onEditClicked: () -> Unit,
-    onTextChanged: (String) -> Unit,
+    onItemTextChanged: (String) -> Unit,
     onEditSubmitted: () -> Unit,
 ) {
     Row(
@@ -58,7 +58,7 @@ fun ItemWithCheckbox(
         if (item.isBeingModified) {
             InputField(
                 onSubmit = { onEditSubmitted() },
-                onInputValueChange = { onTextChanged(it) },
+                onInputValueChange = { onItemTextChanged(it) },
                 displayedText = item.name,
             )
         } else {
@@ -110,7 +110,7 @@ fun ItemWithCheckboxPreview() {
         onBoxClicked = {},
         onDeleteClicked = {},
         onEditClicked = {},
-        onTextChanged = {},
+        onItemTextChanged = {},
         onEditSubmitted = {}
     )
 

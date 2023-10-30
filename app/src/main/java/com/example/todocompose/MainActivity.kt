@@ -9,12 +9,14 @@ import androidx.compose.runtime.getValue
 import com.example.todocompose.ui.screens.MainScreen
 import com.example.todocompose.ui.screens.MainScreenViewModel
 import com.example.todocompose.ui.theme.TodoComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewModel: MainScreenViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val viewModel: MainScreenViewModel by viewModels()
 
         setContent {
             TodoComposeTheme {
@@ -26,6 +28,5 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-
     }
 }

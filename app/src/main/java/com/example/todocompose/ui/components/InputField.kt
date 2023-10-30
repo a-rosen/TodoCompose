@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -27,6 +29,11 @@ fun InputField(
     displayedText: String,
     modifier: Modifier = Modifier
 ) {
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -40,11 +47,14 @@ fun InputField(
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 4.dp)
+
         )
 
         ElevatedButton(
             onClick = {
                 onSubmit()
+                keyboardController?.hide()
+                focusManager.clearFocus()
             },
             modifier = modifier
                 .wrapContentSize(),

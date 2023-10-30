@@ -1,6 +1,5 @@
 package com.example.todocompose.ui.screens
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.database.InMemoryRepository
@@ -21,6 +20,7 @@ class MainScreenViewModel : ViewModel() {
     val screenStateFlow: StateFlow<MainScreenState> = _internalScreenStateFlow.asStateFlow()
 
     private val repository: TodoRepository = InMemoryRepository()
+
 
     // init keyword means: run this whenever an instance of this class is constructed
     init {
@@ -77,11 +77,11 @@ class MainScreenViewModel : ViewModel() {
             name = _internalScreenStateFlow.value.newItemInputText,
             completed = false
         )
-        Log.d("annie", "onAddNewButtonClick state items before rep: ${_internalScreenStateFlow.value.toDoListItems}")
-
-        repository.addItem(newTodoItem)
-        Log.d("annie", "onAddNewButtonClick state items after rep: ${_internalScreenStateFlow.value.toDoListItems}")
-
+        if (newTodoItem.name == "") {
+            return
+        } else {
+            repository.addItem(newTodoItem)
+        }
     }
 
     fun onDeleteButtonClick(itemToDelete: TodoUiItem) {

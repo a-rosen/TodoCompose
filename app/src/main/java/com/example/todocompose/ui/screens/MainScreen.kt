@@ -1,5 +1,6 @@
 package com.example.todocompose.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -14,7 +15,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,12 +26,16 @@ import com.example.todocompose.ui.components.ItemWithCheckbox
 import com.example.todocompose.ui.models.TodoUiItem
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalComposeUiApi::class
+)
 @Composable
 fun MainScreen(
     state: MainScreenState,
     viewModel: MainScreenViewModel,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -66,7 +73,8 @@ fun MainScreen(
                 .consumeWindowInsets(innerPadding)
         ) {
             LazyColumn(modifier = Modifier
-                .weight(1f, true))  {
+                .weight(1f, true)
+                .clickable { keyboardController?.hide() })  {
                 items(state.toDoListItems) { item ->
                     ItemWithCheckbox(
                         item = item,

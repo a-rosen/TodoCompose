@@ -29,10 +29,8 @@ fun InputField(
     displayedText: String,
     modifier: Modifier = Modifier
 ) {
-
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-
 
     Row(
         verticalAlignment = Alignment.CenterVertically,

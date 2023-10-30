@@ -10,6 +10,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -33,68 +34,75 @@ fun ItemWithCheckbox(
     onItemTextChanged: (String) -> Unit,
     onEditSubmitted: () -> Unit,
 ) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .toggleable(
-                value = item.completed,
-                onValueChange = { onBoxClicked() },
-                role = Role.Checkbox
-            )
-            .padding(horizontal = 16.dp),
 
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-
+    Card(
+        modifier = Modifier
+            .padding(4.dp)
     ) {
-        Checkbox(
-            checked = item.completed,
-            onCheckedChange = null,
-            modifier = Modifier
-                .scale(2f)
-                .padding(end = 8.dp)
-        )
-        if (item.isBeingModified) {
-            InputField(
-                onSubmit = { onEditSubmitted() },
-                onInputValueChange = { onItemTextChanged(it) },
-                displayedText = item.name,
-            )
-        } else {
-            Text(
-                text = item.name,
-                style = TextStyle(
-                    textDecoration = if (item.completed) {
-                        TextDecoration.LineThrough
-                    } else {
-                        null
-                    }
-                ),
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .toggleable(
+                    value = item.completed,
+                    onValueChange = { onBoxClicked() },
+                    role = Role.Checkbox
+                )
+                .padding(horizontal = 16.dp),
+
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+
+        ) {
+            Checkbox(
+                checked = item.completed,
+                onCheckedChange = null,
                 modifier = Modifier
-                    .padding(start = 16.dp)
-                    .weight(2f)
+                    .scale(2f)
+                    .padding(end = 8.dp)
+            )
+            if (item.isBeingModified) {
+                InputField(
+                    onSubmit = { onEditSubmitted() },
+                    onInputValueChange = { onItemTextChanged(it) },
+                    displayedText = item.name,
+                )
+            } else {
+                Text(
+                    text = item.name,
+                    style = TextStyle(
+                        textDecoration = if (item.completed) {
+                            TextDecoration.LineThrough
+                        } else {
+                            null
+                        }
+                    ),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .weight(2f)
+                )
+            }
+            Icon(
+                imageVector = Icons.Filled.Edit,
+                contentDescription = "edit",
+                modifier = Modifier
+                    .clickable(onClick = onEditClicked)
+                    .padding(8.dp)
+
+            )
+
+            Icon(
+                imageVector = Icons.Filled.Delete,
+                contentDescription = "delete",
+                modifier = Modifier
+                    .clickable(onClick = onDeleteClicked)
+                    .padding(8.dp)
+
+
             )
         }
-        Icon(
-            imageVector = Icons.Filled.Edit,
-            contentDescription = "edit",
-            modifier = Modifier
-                .clickable(onClick = onEditClicked)
-                .padding(8.dp)
-
-        )
-
-        Icon(
-            imageVector = Icons.Filled.Delete,
-            contentDescription = "delete",
-            modifier = Modifier
-                .clickable(onClick = onDeleteClicked)
-                .padding(8.dp)
-
-
-        )
     }
+
 }
 
 @Preview

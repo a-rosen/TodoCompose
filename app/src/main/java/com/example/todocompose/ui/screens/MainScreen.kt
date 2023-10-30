@@ -26,7 +26,8 @@ import com.example.todocompose.ui.components.ItemWithCheckbox
 import com.example.todocompose.ui.models.TodoUiItem
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
     ExperimentalComposeUiApi::class
 )
 @Composable
@@ -72,27 +73,19 @@ fun MainScreen(
                 .padding(innerPadding)
                 .consumeWindowInsets(innerPadding)
         ) {
-            LazyColumn(modifier = Modifier
-                .weight(1f, true)
-                .clickable { keyboardController?.hide() })  {
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f, true)
+                    .clickable { keyboardController?.hide() }
+            ) {
                 items(state.toDoListItems) { item ->
                     ItemWithCheckbox(
                         item = item,
-                        onBoxClicked = {
-                            viewModel.toggleChecked(item)
-                        },
-                        onDeleteClicked = {
-                            viewModel.onDeleteButtonClick(item)
-                        },
-                        onEditClicked = {
-                            viewModel.onEditButtonClick(item)
-                        },
-                        onItemTextChanged = {
-                            viewModel.updateItemText(item.id, it)
-                        },
-                        onEditSubmitted = {
-                            viewModel.onUpdateItemSubmit(item)
-                        }
+                        onBoxClicked = { viewModel.toggleChecked(item) },
+                        onDeleteClicked = { viewModel.onDeleteButtonClick(item) },
+                        onEditClicked = { viewModel.onEditButtonClick(item) },
+                        onItemTextChanged = { viewModel.updateItemText(item.id, it) },
+                        onEditSubmitted = { viewModel.onUpdateItemSubmit(item) }
                     )
                 }
             }

@@ -25,18 +25,26 @@ import com.example.todocompose.database.InMemoryRepository
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
 import com.example.todocompose.ui.models.TodoUiItem
+import androidx.navigation.compose.NavHost
 
+//this is from the out of date tutotial and may not be necessary
+enum class MainScreen() {
+    TodoList,
+    Details
+}
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
     ExperimentalComposeUiApi::class
 )
+
 @Composable
 fun MainScreen(
     state: MainScreenState,
     viewModel: MainScreenViewModel,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+
 
     Scaffold(
         topBar = {
@@ -69,6 +77,9 @@ fun MainScreen(
             }
         }
     ) { innerPadding ->
+
+        //TODO: implement NavHost, but the tutorial is out of date oops
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)

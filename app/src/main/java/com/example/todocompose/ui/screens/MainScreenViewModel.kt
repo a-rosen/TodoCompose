@@ -16,7 +16,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class MainScreenViewModel @Inject constructor (
+class MainScreenViewModel @Inject constructor(
     private val repository: TodoRepository
 ) : ViewModel() {
     private val _internalScreenStateFlow =
@@ -27,7 +27,7 @@ class MainScreenViewModel @Inject constructor (
     init {
         viewModelScope.launch {
             repository.dataFlow.collect { records ->
-                _internalScreenStateFlow.update { oldValue ->
+                _internalScreenStateFlow.update {
                     MainScreenState(
                         "",
                         records.map { it.asTodoUiItem() }
@@ -108,6 +108,17 @@ class MainScreenViewModel @Inject constructor (
 
     fun toggleChecked(itemToChange: TodoUiItem) {
         repository.toggleCompleted(itemToChange.id)
+
+        _internalScreenStateFlow.update { oldState ->
+            val oldListItems = oldState.toDoListItems
+
+            val newListItems = oldListItems
+                .filter { !it.completed } +
+                    oldListItems
+                        .filter { it.completed }
+
+            return@update MainScreenState(oldState.newItemInputText, newListItems)
+        }
     }
 
     private fun toggleIsBeingModified(itemToUpdate: TodoUiItem) {

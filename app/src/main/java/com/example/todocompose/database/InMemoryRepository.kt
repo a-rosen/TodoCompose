@@ -4,8 +4,13 @@ import com.example.todocompose.database.models.TodoDataRecord
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class InMemoryRepository : TodoRepository {
+/**
+ * An implementation of the Repository interface that doesn't save anything long-term, it
+ * only works while the app is alive. If you kill the app, it forgets everything.
+ */
+class InMemoryRepository @Inject constructor() : TodoRepository {
     private val _internalDataFlow = MutableStateFlow<List<TodoDataRecord>>(value = listOf())
     override val dataFlow = _internalDataFlow.asStateFlow()
 
@@ -28,7 +33,7 @@ class InMemoryRepository : TodoRepository {
 
     override fun updateItem(id: Long, newItemName: String) {
 
-        _internalDataFlow.update { oldState ->
+        _internalDataFlow.update {
             val oldListItems = _internalDataFlow.value
 
             val newListItems = oldListItems
@@ -44,7 +49,7 @@ class InMemoryRepository : TodoRepository {
     }
 
     override fun toggleCompleted(id: Long) {
-        _internalDataFlow.update { oldState ->
+        _internalDataFlow.update {
             val oldListItems = _internalDataFlow.value
 
             val newListItems = oldListItems

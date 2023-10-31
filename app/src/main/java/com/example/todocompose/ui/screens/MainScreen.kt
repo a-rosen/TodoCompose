@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.todocompose.database.InMemoryRepository
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
 import com.example.todocompose.ui.models.TodoUiItem
@@ -121,6 +122,6 @@ fun MainScreenPreview(
                 )
             )
         ),
-        MainScreenViewModel(),
+        MainScreenViewModel(InMemoryRepository()),
     )
 }

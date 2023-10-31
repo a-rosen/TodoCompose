@@ -2,25 +2,26 @@ package com.example.todocompose.ui.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todocompose.database.InMemoryRepository
 import com.example.todocompose.database.TodoRepository
 import com.example.todocompose.database.models.TodoDataRecord
 import com.example.todocompose.ui.models.TodoUiItem
 import com.example.todocompose.ui.models.asTodoUiItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.random.Random
 
-class MainScreenViewModel : ViewModel() {
+@HiltViewModel
+class MainScreenViewModel @Inject constructor (
+    private val repository: TodoRepository
+) : ViewModel() {
     private val _internalScreenStateFlow =
         MutableStateFlow<MainScreenState>(value = MainScreenState.EMPTY)
     val screenStateFlow: StateFlow<MainScreenState> = _internalScreenStateFlow.asStateFlow()
-
-    private val repository: TodoRepository = InMemoryRepository()
-
 
     // init keyword means: run this whenever an instance of this class is constructed
     init {

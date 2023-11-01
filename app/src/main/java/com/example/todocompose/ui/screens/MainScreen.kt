@@ -26,8 +26,9 @@ import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
 import com.example.todocompose.ui.models.TodoUiItem
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 
-//this is from the out of date tutotial and may not be necessary
+//this is from the out of date tutorial and may not be necessary
 enum class MainScreen() {
     TodoList,
     Details
@@ -77,8 +78,6 @@ fun MainScreen(
             }
         }
     ) { innerPadding ->
-
-        //TODO: implement NavHost, but the tutorial is out of date oops
 
         Column(
             modifier = Modifier

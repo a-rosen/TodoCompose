@@ -23,7 +23,6 @@ class MainScreenViewModel @Inject constructor(
         MutableStateFlow<MainScreenState>(value = MainScreenState.EMPTY)
     val screenStateFlow: StateFlow<MainScreenState> = _internalScreenStateFlow.asStateFlow()
 
-    // init keyword means: run this whenever an instance of this class is constructed
     init {
         viewModelScope.launch {
             repository.dataFlow.collect { records ->

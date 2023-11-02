@@ -1,6 +1,6 @@
-package com.example.todocompose.database
+package com.example.todocompose.repository
 
-import com.example.todocompose.database.models.TodoDataRecord
+import com.example.todocompose.repository.models.TodoDataRecord
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

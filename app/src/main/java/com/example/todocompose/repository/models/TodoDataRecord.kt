@@ -1,4 +1,4 @@
-package com.example.todocompose.database.models
+package com.example.todocompose.repository.models
 
 data class TodoDataRecord(
     val id: Long,

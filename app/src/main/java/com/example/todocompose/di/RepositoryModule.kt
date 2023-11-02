@@ -1,7 +1,7 @@
 package com.example.todocompose.di
 
-import com.example.todocompose.database.InMemoryRepository
-import com.example.todocompose.database.TodoRepository
+import com.example.todocompose.repository.InMemoryRepository
+import com.example.todocompose.repository.TodoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

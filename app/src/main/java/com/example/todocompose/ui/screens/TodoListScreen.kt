@@ -21,18 +21,10 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.todocompose.database.InMemoryRepository
+import com.example.todocompose.repository.InMemoryRepository
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
 import com.example.todocompose.ui.models.TodoUiItem
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-
-//this is from the out of date tutorial and may not be necessary
-enum class MainScreen() {
-    TodoList,
-    Details
-}
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
@@ -40,9 +32,9 @@ enum class MainScreen() {
 )
 
 @Composable
-fun MainScreen(
-    state: MainScreenState,
-    viewModel: MainScreenViewModel,
+fun TodoListScreen(
+    state: TodoListScreenState,
+    viewModel: TodoListScreenViewModel,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -95,6 +87,7 @@ fun MainScreen(
                         onBoxClicked = { viewModel.toggleChecked(item) },
                         onDeleteClicked = { viewModel.onDeleteButtonClick(item) },
                         onEditClicked = { viewModel.onEditButtonClick(item) },
+                        onDetailsClicked = { viewModel.selectAnItem(item) },
                         onItemTextChanged = { viewModel.updateItemText(item.id, it) },
                         onEditSubmitted = { viewModel.onUpdateItemSubmit(item) }
                     )
@@ -108,8 +101,8 @@ fun MainScreen(
 @Composable
 fun MainScreenPreview(
 ) {
-    MainScreen(
-        MainScreenState(
+    TodoListScreen(
+        TodoListScreenState(
             "inputText",
             listOf(
                 TodoUiItem(
@@ -130,8 +123,9 @@ fun MainScreenPreview(
                     true,
                     isBeingModified = false
                 )
-            )
+            ),
+            null
         ),
-        MainScreenViewModel(InMemoryRepository()),
+        TodoListScreenViewModel(InMemoryRepository()),
     )
 }

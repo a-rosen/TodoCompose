@@ -10,6 +10,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
@@ -31,6 +32,7 @@ fun ItemWithCheckbox(
     onBoxClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
     onEditClicked: () -> Unit,
+    onDetailsClicked: () -> Unit,
     onItemTextChanged: (String) -> Unit,
     onEditSubmitted: () -> Unit,
 ) {
@@ -83,6 +85,15 @@ fun ItemWithCheckbox(
                 )
             }
             Icon(
+                imageVector = Icons.Filled.Info,
+                contentDescription = "details",
+                modifier = Modifier
+                    .clickable(onClick = onDetailsClicked)
+                    .padding(8.dp)
+
+            )
+
+            Icon(
                 imageVector = Icons.Filled.Edit,
                 contentDescription = "edit",
                 modifier = Modifier
@@ -118,6 +129,7 @@ fun ItemWithCheckboxPreview() {
         onBoxClicked = {},
         onDeleteClicked = {},
         onEditClicked = {},
+        onDetailsClicked = {},
         onItemTextChanged = {},
         onEditSubmitted = {}
     )

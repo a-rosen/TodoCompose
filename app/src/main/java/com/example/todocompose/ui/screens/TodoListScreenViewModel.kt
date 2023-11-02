@@ -2,8 +2,8 @@ package com.example.todocompose.ui.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todocompose.database.TodoRepository
-import com.example.todocompose.database.models.TodoDataRecord
+import com.example.todocompose.repository.TodoRepository
+import com.example.todocompose.repository.models.TodoDataRecord
 import com.example.todocompose.ui.models.TodoUiItem
 import com.example.todocompose.ui.models.asTodoUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,18 +16,18 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class MainScreenViewModel @Inject constructor(
+class TodoListScreenViewModel @Inject constructor(
     private val repository: TodoRepository
 ) : ViewModel() {
     private val _internalScreenStateFlow =
-        MutableStateFlow<MainScreenState>(value = MainScreenState.EMPTY)
-    val screenStateFlow: StateFlow<MainScreenState> = _internalScreenStateFlow.asStateFlow()
+        MutableStateFlow<TodoListScreenState>(value = TodoListScreenState.EMPTY)
+    val screenStateFlow: StateFlow<TodoListScreenState> = _internalScreenStateFlow.asStateFlow()
 
     init {
         viewModelScope.launch {
             repository.dataFlow.collect { records ->
                 _internalScreenStateFlow.update {
-                    MainScreenState(
+                    TodoListScreenState(
                         "",
                         records.map { it.asTodoUiItem() }
                     )
@@ -38,7 +38,7 @@ class MainScreenViewModel @Inject constructor(
 
     fun updateNewItemInputText(newText: String) {
         _internalScreenStateFlow.update { oldState ->
-            MainScreenState(newText, oldState.toDoListItems)
+            TodoListScreenState(newText, oldState.toDoListItems)
         }
     }
 
@@ -54,7 +54,7 @@ class MainScreenViewModel @Inject constructor(
                         oldItem
                     }
                 }
-            return@update MainScreenState(oldState.newItemInputText, newListItems)
+            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
         }
     }
 
@@ -101,7 +101,7 @@ class MainScreenViewModel @Inject constructor(
                     }
                 }
 
-            return@update MainScreenState(oldState.newItemInputText, newListItems)
+            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
         }
     }
 
@@ -116,7 +116,17 @@ class MainScreenViewModel @Inject constructor(
                     oldListItems
                         .filter { it.completed }
 
-            return@update MainScreenState(oldState.newItemInputText, newListItems)
+            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
+        }
+    }
+
+    fun selectAnItem(itemToSelect: TodoUiItem) {
+        _internalScreenStateFlow.update { oldState ->
+            TodoListScreenState(
+                oldState.newItemInputText,
+                oldState.toDoListItems,
+                selectedItem = itemToSelect
+            )
         }
     }
 
@@ -133,7 +143,7 @@ class MainScreenViewModel @Inject constructor(
                     }
                 }
 
-            return@update MainScreenState(oldState.newItemInputText, newListItems)
+            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
         }
     }
 }

@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.todocompose.database.InMemoryRepository
+import com.example.todocompose.repository.InMemoryRepository
 import com.example.todocompose.ui.models.TodoUiItem
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)

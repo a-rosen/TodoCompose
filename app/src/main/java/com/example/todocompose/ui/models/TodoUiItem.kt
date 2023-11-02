@@ -1,6 +1,6 @@
 package com.example.todocompose.ui.models
 
-import com.example.todocompose.database.models.TodoDataRecord
+import com.example.todocompose.repository.models.TodoDataRecord
 
 data class TodoUiItem(
     val id: Long,

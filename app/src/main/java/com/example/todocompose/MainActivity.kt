@@ -6,14 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.todocompose.ui.screens.MainScreen
-import com.example.todocompose.ui.screens.MainScreenViewModel
+import com.example.todocompose.ui.screens.DetailScreen
+import com.example.todocompose.ui.screens.DetailScreenViewModel
+import com.example.todocompose.ui.screens.TodoListScreen
+import com.example.todocompose.ui.screens.TodoListScreenViewModel
 import com.example.todocompose.ui.theme.TodoComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainScreenViewModel by viewModels()
+    private val listViewModel: TodoListScreenViewModel by viewModels()
+    private val detailViewModel: DetailScreenViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,12 +24,19 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TodoComposeTheme {
-                val mainScreenState by viewModel.screenStateFlow.collectAsState()
+                val listScreenState by listViewModel.screenStateFlow.collectAsState()
 
-                MainScreen(
-                    state = mainScreenState,
-                    viewModel = viewModel,
-                )
+                if (listScreenState.selectedItem == null) {
+                    TodoListScreen(
+                        state = listScreenState,
+                        viewModel = listViewModel,
+                    )
+                } else {
+                    DetailScreen(
+                        viewModel = detailViewModel,
+                        item = listScreenState.selectedItem!!
+                    )
+                }
             }
         }
     }

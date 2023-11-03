@@ -1,5 +1,6 @@
 package com.example.todocompose.di
 
+import com.example.todocompose.repository.DatabaseRepository
 import com.example.todocompose.repository.InMemoryRepository
 import com.example.todocompose.repository.TodoRepository
 import dagger.Binds
@@ -19,7 +20,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
     /**
      * This function tells dagger how to create a TodoRepository. It's abstract, which means
-     * I don't have to w rite a definition for it, but instead Dagger/Hilt will do annotation
+     * I don't have to write a definition for it, but instead Dagger/Hilt will do annotation
      * processing magic to generate a version of this method (and class) that do the useful work.
      *
      * It requires as an argument an InMemoryRepository, for now. The generated code will be pretty
@@ -27,5 +28,5 @@ abstract class RepositoryModule {
      * I know how to make one, so here you go."
      */
     @Binds
-    abstract fun howDoICreateATodoRepository(inMemoryRepository: InMemoryRepository) : TodoRepository
+    abstract fun howDoICreateATodoRepository(databaseRepository: DatabaseRepository) : TodoRepository
 }

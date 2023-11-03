@@ -18,13 +18,13 @@ class MainActivity : ComponentActivity() {
     private val listViewModel: TodoListScreenViewModel by viewModels()
     private val detailViewModel: DetailScreenViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             TodoComposeTheme {
                 val listScreenState by listViewModel.screenStateFlow.collectAsState()
+
 
                 if (listScreenState.selectedItem == null) {
                     TodoListScreen(

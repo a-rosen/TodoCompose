@@ -5,14 +5,15 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.todocompose.database.models.TodoEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoDao {
     @Query("SELECT * FROM todoentity")
-    fun getAllItems() : List<TodoEntity>
+    fun getAllItems() : Flow<TodoEntity>
+
     @Insert
     fun addItem(todoItem: TodoEntity)
-
     @Delete
     fun deleteItem(todoItem: TodoEntity)
 

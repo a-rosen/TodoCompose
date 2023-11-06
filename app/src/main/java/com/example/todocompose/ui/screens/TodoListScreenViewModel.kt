@@ -1,5 +1,6 @@
 package com.example.todocompose.ui.screens
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.repository.TodoRepository
@@ -7,6 +8,7 @@ import com.example.todocompose.repository.models.TodoDataRecord
 import com.example.todocompose.ui.models.TodoUiItem
 import com.example.todocompose.ui.models.asTodoUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,14 +32,16 @@ class TodoListScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.dataFlow.collect { records ->
-                _internalScreenStateFlow.update {
-                    TodoListScreenState(
-                        "",
-                        records.map { it.asTodoUiItem() }
-                    )
+            repository
+                .dataFlow
+                .collect { records ->
+                    _internalScreenStateFlow.update {
+                        TodoListScreenState(
+                            "",
+                            records.map { it.asTodoUiItem() }
+                        )
+                    }
                 }
-            }
         }
     }
 
@@ -85,7 +89,12 @@ class TodoListScreenViewModel @Inject constructor(
         if (newTodoItem.name == "") {
             return
         } else {
-            repository.addItem(newTodoItem)
+            Log.d("annie", "outside coroutine job. thread name: ${Thread.currentThread().name}")
+
+            viewModelScope.launch(Dispatchers.IO) {
+                Log.d("annie", "inside coroutine job. thread name: ${Thread.currentThread().name}")
+                repository.addItem(newTodoItem)
+            }
         }
     }
 

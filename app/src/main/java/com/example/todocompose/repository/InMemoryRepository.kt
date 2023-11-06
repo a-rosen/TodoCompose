@@ -14,7 +14,7 @@ class InMemoryRepository @Inject constructor() : TodoRepository {
     private val _internalDataFlow = MutableStateFlow<List<TodoDataRecord>>(value = listOf())
     override val dataFlow = _internalDataFlow.asStateFlow()
 
-    override fun addItem(todoItem: TodoDataRecord) {
+    override suspend fun addItem(todoItem: TodoDataRecord) {
         val newList = _internalDataFlow.value + listOf(todoItem)
 
         _internalDataFlow.update {

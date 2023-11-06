@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface TodoRepository {
     val dataFlow : StateFlow<List<TodoDataRecord>>
 
-    fun addItem(todoItem: TodoDataRecord)
+    suspend fun addItem(todoItem: TodoDataRecord)
 
     fun deleteItem(id: Long)
 

@@ -24,9 +24,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoComposeTheme {
                 val listScreenState by listViewModel.screenStateFlow.collectAsState()
+                val selectedItem = listScreenState.selectedItem
 
-
-                if (listScreenState.selectedItem == null) {
+                if (selectedItem == null) {
                     TodoListScreen(
                         state = listScreenState,
                         viewModel = listViewModel,
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 } else {
                     DetailScreen(
                         viewModel = detailViewModel,
-                        item = listScreenState.selectedItem!!
+                        item = selectedItem
                     )
                 }
             }

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoDao {
-    @Query("SELECT * FROM todoentity ORDER BY name")
+    @Query("SELECT * FROM todoentity ORDER BY id")
     fun getFlowOfAllItems() : Flow<List<TodoEntity>>
 
     @Insert

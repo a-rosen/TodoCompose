@@ -1,6 +1,5 @@
 package com.example.todocompose.ui.screens
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.repository.TodoRepository
@@ -89,10 +88,7 @@ class TodoListScreenViewModel @Inject constructor(
         if (newTodoItem.name == "") {
             return
         } else {
-            Log.d("annie", "outside coroutine job. thread name: ${Thread.currentThread().name}")
-
             viewModelScope.launch(Dispatchers.IO) {
-                Log.d("annie", "inside coroutine job. thread name: ${Thread.currentThread().name}")
                 repository.addItem(newTodoItem)
             }
         }

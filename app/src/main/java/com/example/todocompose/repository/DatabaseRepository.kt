@@ -4,8 +4,8 @@ import com.example.todocompose.database.dao.TodoDao
 import com.example.todocompose.database.models.asTodoDataRecord
 import com.example.todocompose.database.models.asTodoEntity
 import com.example.todocompose.repository.models.TodoDataRecord
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
@@ -15,14 +15,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DatabaseRepository @Inject constructor(
-    private val todoDao: TodoDao
+    private val todoDao: TodoDao,
+    repositoryScope: CoroutineScope
 ) : TodoRepository {
     private val _internalDataFlow = MutableStateFlow<List<TodoDataRecord>>(value = listOf())
     override val dataFlow = _internalDataFlow.asStateFlow()
 
     init {
-        // this is bad, actually better to do this with dagger later
-        GlobalScope.launch {
+        repositoryScope.launch(Dispatchers.IO) {
             todoDao
                 .getFlowOfAllItems()
                 .flowOn(Dispatchers.IO)

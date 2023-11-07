@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
     @Provides
+    @Singleton
     fun provideDatabase(@ApplicationContext context: Context): TodoDatabase {
         return Room
             .databaseBuilder(

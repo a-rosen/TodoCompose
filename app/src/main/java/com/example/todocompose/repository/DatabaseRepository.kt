@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class DatabaseRepository @Inject constructor(
     private val todoDao: TodoDao,
-    repositoryScope: CoroutineScope
+    private val repositoryScope: CoroutineScope
 ) : TodoRepository {
     private val _internalDataFlow = MutableStateFlow<List<TodoDataRecord>>(value = listOf())
     override val dataFlow = _internalDataFlow.asStateFlow()

@@ -42,15 +42,15 @@ class DatabaseRepository @Inject constructor(
         todoDao.addItem(todoItem.asTodoEntity())
     }
 
-    override fun deleteItem(id: Long) {
+    override suspend fun deleteItem(todoItem: TodoDataRecord) {
+        todoDao.deleteItem(todoItem.asTodoEntity())
+    }
+
+    override fun updateItem(todoItem: TodoDataRecord, newItemName: String) {
         TODO("Not yet implemented")
     }
 
-    override fun updateItem(id: Long, newItemName: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun toggleCompleted(id: Long) {
+    override fun toggleCompleted(todoItem: TodoDataRecord) {
         TODO("Not yet implemented")
     }
 }

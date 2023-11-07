@@ -12,7 +12,7 @@ data class TodoEntity(
 )
 
 fun TodoDataRecord.asTodoEntity() = TodoEntity(
-    null,
+    this.id,
     this.name,
     this.completed,
 )

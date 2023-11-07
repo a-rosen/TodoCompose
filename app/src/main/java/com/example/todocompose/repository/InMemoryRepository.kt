@@ -22,23 +22,23 @@ class InMemoryRepository @Inject constructor() : TodoRepository {
         }
     }
 
-    override fun deleteItem(id: Long) {
+    override suspend fun deleteItem(todoItem: TodoDataRecord) {
         val newList = _internalDataFlow.value
-            .filter { it.id != id }
+            .filter { it.id != todoItem.id }
 
         _internalDataFlow.update {
             newList
         }
     }
 
-    override fun updateItem(id: Long, newItemName: String) {
+    override fun updateItem(todoItem: TodoDataRecord, newItemName: String) {
 
         _internalDataFlow.update {
             val oldListItems = _internalDataFlow.value
 
             val newListItems = oldListItems
                 .map { oldItem ->
-                    if (oldItem.id == id) {
+                    if (oldItem.id == todoItem.id) {
                         oldItem.copy(name = newItemName)
                     } else {
                         oldItem
@@ -48,13 +48,13 @@ class InMemoryRepository @Inject constructor() : TodoRepository {
         }
     }
 
-    override fun toggleCompleted(id: Long) {
+    override fun toggleCompleted(todoItem: TodoDataRecord) {
         _internalDataFlow.update {
             val oldListItems = _internalDataFlow.value
 
             val newListItems = oldListItems
                 .map { oldItem ->
-                    if (oldItem.id == id) {
+                    if (oldItem.id == todoItem.id) {
                         oldItem.copy(completed = !oldItem.completed)
                     } else {
                         oldItem

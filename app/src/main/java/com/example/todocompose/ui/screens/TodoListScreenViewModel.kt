@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.repository.TodoRepository
 import com.example.todocompose.repository.models.TodoDataRecord
+import com.example.todocompose.repository.models.asTodoDataRecord
 import com.example.todocompose.ui.models.TodoUiItem
 import com.example.todocompose.ui.models.asTodoUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 // when dagger sees an @inject annotation,
@@ -50,7 +50,7 @@ class TodoListScreenViewModel @Inject constructor(
         }
     }
 
-    fun updateItemText(id: Long, newText: String) {
+    fun updateItemText(id: Long?, newText: String) {
         _internalScreenStateFlow.update { oldState ->
             val oldListItems = oldState.toDoListItems
 
@@ -73,7 +73,7 @@ class TodoListScreenViewModel @Inject constructor(
             .firstOrNull { it.id == itemToUpdate.id } ?: return
 
         if (oldMatchingItem.name != itemToUpdate.name) {
-            repository.updateItem(itemToUpdate.id, itemToUpdate.name)
+            repository.updateItem(itemToUpdate.asTodoDataRecord(), itemToUpdate.name)
         } else {
             toggleIsBeingModified(itemToUpdate)
         }
@@ -81,7 +81,7 @@ class TodoListScreenViewModel @Inject constructor(
 
     fun onAddNewItemButtonClick() {
         val newTodoItem = TodoDataRecord(
-            id = Random.nextLong(),
+            id = null,
             name = _internalScreenStateFlow.value.newItemInputText,
             completed = false
         )
@@ -95,7 +95,10 @@ class TodoListScreenViewModel @Inject constructor(
     }
 
     fun onDeleteButtonClick(itemToDelete: TodoUiItem) {
-        repository.deleteItem(itemToDelete.id)
+        val recordToDelete = itemToDelete.asTodoDataRecord()
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteItem(recordToDelete)
+        }
     }
 
     fun onEditButtonClick(itemToUpdate: TodoUiItem) {
@@ -116,7 +119,7 @@ class TodoListScreenViewModel @Inject constructor(
     }
 
     fun toggleChecked(itemToChange: TodoUiItem) {
-        repository.toggleCompleted(itemToChange.id)
+        repository.toggleCompleted(itemToChange.asTodoDataRecord())
 
         _internalScreenStateFlow.update { oldState ->
             val oldListItems = oldState.toDoListItems

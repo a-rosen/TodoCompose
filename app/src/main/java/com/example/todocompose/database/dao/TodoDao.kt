@@ -18,10 +18,12 @@ interface TodoDao {
     @Delete
     fun deleteItem(todoItem: TodoEntity)
 
-//    @Update
-//    fun updateItem(id: Long, newItemName: String)
-//    // TODO: syntax for this probably means different arguments, investigate
-//
+    @Query("UPDATE todoentity SET name = :newItemName WHERE id = :id")
+    fun updateItem(
+        id: Long?,
+        newItemName: String
+    )
+
 //    @Update
 //    fun toggleCompleted(id: Long)
 //    // TODO: see above

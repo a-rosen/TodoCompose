@@ -31,14 +31,14 @@ class InMemoryRepository @Inject constructor() : TodoRepository {
         }
     }
 
-    override fun updateItem(todoItem: TodoDataRecord, newItemName: String) {
+    override suspend fun updateItemName(id: Long?, newItemName: String) {
 
         _internalDataFlow.update {
             val oldListItems = _internalDataFlow.value
 
             val newListItems = oldListItems
                 .map { oldItem ->
-                    if (oldItem.id == todoItem.id) {
+                    if (oldItem.id == id) {
                         oldItem.copy(name = newItemName)
                     } else {
                         oldItem

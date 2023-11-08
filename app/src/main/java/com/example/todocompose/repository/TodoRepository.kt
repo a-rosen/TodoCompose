@@ -10,7 +10,7 @@ interface TodoRepository {
 
     suspend fun deleteItem(todoItem: TodoDataRecord)
 
-    fun updateItem(todoItem: TodoDataRecord, newItemName: String)
+    suspend fun updateItemName(id: Long?, newItemName: String)
 
     fun toggleCompleted(todoItem: TodoDataRecord)
 

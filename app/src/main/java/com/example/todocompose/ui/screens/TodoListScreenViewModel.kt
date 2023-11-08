@@ -73,7 +73,12 @@ class TodoListScreenViewModel @Inject constructor(
             .firstOrNull { it.id == itemToUpdate.id } ?: return
 
         if (oldMatchingItem.name != itemToUpdate.name) {
-            repository.updateItem(itemToUpdate.asTodoDataRecord(), itemToUpdate.name)
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.updateItemName(
+                    itemToUpdate.asTodoDataRecord().id,
+                    itemToUpdate.name
+                )
+            }
         } else {
             toggleIsBeingModified(itemToUpdate)
         }

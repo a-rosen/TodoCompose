@@ -124,18 +124,21 @@ class TodoListScreenViewModel @Inject constructor(
     }
 
     fun toggleChecked(itemToChange: TodoUiItem) {
-        repository.toggleCompleted(itemToChange.asTodoDataRecord())
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.toggleCompleted(itemToChange.id)
 
-        _internalScreenStateFlow.update { oldState ->
-            val oldListItems = oldState.toDoListItems
+            _internalScreenStateFlow.update { oldState ->
+                val oldListItems = oldState.toDoListItems
 
-            val newListItems = oldListItems
-                .filter { !it.completed } +
-                    oldListItems
-                        .filter { it.completed }
+                val newListItems = oldListItems
+                    .filter { !it.completed } +
+                        oldListItems
+                            .filter { it.completed }
 
-            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
+                return@update TodoListScreenState(oldState.newItemInputText, newListItems)
+            }
         }
+
     }
 
     fun selectAnItem(itemToSelect: TodoUiItem) {

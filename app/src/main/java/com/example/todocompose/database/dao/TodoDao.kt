@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoDao {
-    @Query("SELECT * FROM todoentity ORDER BY id")
+    @Query("SELECT * FROM todo ORDER BY id")
     fun getFlowOfAllItems() : Flow<List<TodoEntity>>
 
     @Insert
@@ -18,13 +18,12 @@ interface TodoDao {
     @Delete
     fun deleteItem(todoItem: TodoEntity)
 
-    @Query("UPDATE todoentity SET name = :newItemName WHERE id = :id")
+    @Query("UPDATE todo SET name = :newItemName WHERE id = :id")
     fun updateItem(
         id: Long?,
         newItemName: String
     )
 
-//    @Update
-//    fun toggleCompleted(id: Long)
-//    // TODO: see above
+    @Query("UPDATE todo SET completed = NOT completed WHERE id = :id")
+    fun toggleCompleted(id: Long)
 }

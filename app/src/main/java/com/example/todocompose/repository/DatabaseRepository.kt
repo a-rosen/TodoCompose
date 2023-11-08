@@ -50,7 +50,9 @@ class DatabaseRepository @Inject constructor(
         todoDao.updateItem(id, newItemName = newItemName)
     }
 
-    override fun toggleCompleted(todoItem: TodoDataRecord) {
-        TODO("Not yet implemented")
+    override suspend fun toggleCompleted(id: Long?) {
+        if (id != null) {
+            todoDao.toggleCompleted(id)
+        }
     }
 }

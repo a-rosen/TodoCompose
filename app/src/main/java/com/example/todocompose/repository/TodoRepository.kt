@@ -12,6 +12,6 @@ interface TodoRepository {
 
     suspend fun updateItemName(id: Long?, newItemName: String)
 
-    fun toggleCompleted(todoItem: TodoDataRecord)
+    suspend fun toggleCompleted(id: Long?)
 
 }

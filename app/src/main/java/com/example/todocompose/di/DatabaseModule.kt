@@ -22,6 +22,7 @@ class DatabaseModule {
                 TodoDatabase::class.java,
                 "todo-database"
             )
+            .fallbackToDestructiveMigration()
             .build()
     }
 

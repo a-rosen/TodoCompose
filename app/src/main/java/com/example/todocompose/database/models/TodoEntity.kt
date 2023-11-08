@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.todocompose.repository.models.TodoDataRecord
 
-@Entity
+@Entity(tableName = "todo")
 data class TodoEntity(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
     val name: String,

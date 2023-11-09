@@ -15,16 +15,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.todocompose.repository.InMemoryRepository
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
-import com.example.todocompose.ui.models.TodoUiItem
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
@@ -33,9 +34,9 @@ import com.example.todocompose.ui.models.TodoUiItem
 
 @Composable
 fun TodoListScreen(
-    state: TodoListScreenState,
-    viewModel: TodoListScreenViewModel,
+    viewModel: TodoListScreenViewModel = viewModel()
 ) {
+    val listScreenState by viewModel.screenStateFlow.collectAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
 
@@ -64,7 +65,7 @@ fun TodoListScreen(
                     onInputValueChange = {
                         viewModel.updateNewItemInputText(it)
                     },
-                    displayedText = state.newItemInputText,
+                    displayedText = listScreenState.newItemInputText,
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -81,7 +82,7 @@ fun TodoListScreen(
                     .weight(1f, true)
                     .clickable { keyboardController?.hide() }
             ) {
-                items(state.toDoListItems) { item ->
+                items(listScreenState.toDoListItems) { item ->
                     ItemWithCheckbox(
                         item = item,
                         onBoxClicked = { viewModel.toggleChecked(item) },
@@ -101,31 +102,5 @@ fun TodoListScreen(
 @Composable
 fun MainScreenPreview(
 ) {
-    TodoListScreen(
-        TodoListScreenState(
-            "inputText",
-            listOf(
-                TodoUiItem(
-                    1234L,
-                    "name1",
-                    false,
-                    isBeingModified = false
-                ),
-                TodoUiItem(
-                    5678L,
-                    "name2",
-                    false,
-                    isBeingModified = false
-                ),
-                TodoUiItem(
-                    6743L,
-                    "name3",
-                    true,
-                    isBeingModified = false
-                )
-            ),
-            null
-        ),
-        TodoListScreenViewModel(InMemoryRepository()),
-    )
+    TodoListScreen()
 }

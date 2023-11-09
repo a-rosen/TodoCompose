@@ -17,11 +17,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-// when dagger sees an @inject annotation,
-// it will generate code such that, when this viewmodel is requested, it will fill in the
-// blanks of the dependencies with generated code
-// so, dagger calls the function we wrote in the relevant module
-
 class TodoListScreenViewModel @Inject constructor(
     private val repository: TodoRepository
 ) : ViewModel() {

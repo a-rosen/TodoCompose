@@ -17,11 +17,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todocompose.repository.InMemoryRepository
 import com.example.todocompose.ui.models.TodoUiItem
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun DetailScreen(
-    viewModel: DetailScreenViewModel,
+    viewModel: DetailScreenViewModel = viewModel(),
     item: TodoUiItem
 ) {
     Scaffold(

@@ -20,3 +20,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+// NEXT WEEK: beginning of nav is added, next is to implement it (you have the graph, now create actual ways to use it in your components)
+// HELPFUL RESOURCES:
+/*
+https://developer.android.com/jetpack/compose/libraries#hilt-navigation Discusses the need to add a separate library for hilt & nav-compose to work together
+https://github.com/google-developer-training/basic-android-kotlin-compose-training-inventory-app/ Example inventory app with clearer nav than cupcake example
+https://developer.android.com/codelabs/basic-android-kotlin-compose-navigation Cupcake example
+https://developer.android.com/jetpack/compose/navigation Quick link to docs
+
+ */

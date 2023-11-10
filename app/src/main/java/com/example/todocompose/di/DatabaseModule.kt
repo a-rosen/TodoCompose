@@ -26,8 +26,6 @@ class DatabaseModule {
             .build()
     }
 
-    // you don't need to call this function -
-    // dagger will call it if you make something require a tododao
     @Provides
     @Singleton
     fun todoDao(

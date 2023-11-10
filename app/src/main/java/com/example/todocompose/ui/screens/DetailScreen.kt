@@ -23,7 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun DetailScreen(
     viewModel: DetailScreenViewModel = viewModel(),
-    item: TodoUiItem
+    item: TodoUiItem?
 ) {
     Scaffold(
         topBar = {
@@ -52,8 +52,8 @@ fun DetailScreen(
                 .padding(innerPadding)
                 .consumeWindowInsets(innerPadding)
         ) {
-            Text(text = "NAME: ${item.name}")
-            Text(text = "COMPLETED: ${item.completed}")
+            Text(text = "NAME: ${item?.name}")
+            Text(text = "COMPLETED: ${item?.completed}")
         }
     }
 

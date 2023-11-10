@@ -1,5 +1,6 @@
 package com.example.todocompose.ui.screens
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.repository.TodoRepository
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoListScreenViewModel @Inject constructor(
-    private val repository: TodoRepository
+    private val repository: TodoRepository,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _internalScreenStateFlow =
         MutableStateFlow<TodoListScreenState>(value = TodoListScreenState.EMPTY)

@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
 
@@ -34,7 +34,7 @@ import com.example.todocompose.ui.components.ItemWithCheckbox
 
 @Composable
 fun TodoListScreen(
-    viewModel: TodoListScreenViewModel = viewModel()
+    viewModel: TodoListScreenViewModel = hiltViewModel()
 ) {
     val listScreenState by viewModel.screenStateFlow.collectAsState()
     val keyboardController = LocalSoftwareKeyboardController.current

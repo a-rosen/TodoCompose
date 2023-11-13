@@ -15,16 +15,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.todocompose.repository.InMemoryRepository
-import com.example.todocompose.ui.models.TodoUiItem
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.todocompose.navigation.NavigationDestination
+import com.example.todocompose.repository.InMemoryRepository
+
+// const means "its value is known at compilation"
+
+object DetailsDestination : NavigationDestination {
+    override val route = "DetailScreen"
+    const val itemIdArg = "itemId"
+    val routeWithArgs = "$route/{$itemIdArg}"
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun DetailScreen(
     viewModel: DetailScreenViewModel = viewModel(),
-    item: TodoUiItem?
 ) {
+
+    val item = viewModel.getItemById()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -52,12 +62,10 @@ fun DetailScreen(
                 .padding(innerPadding)
                 .consumeWindowInsets(innerPadding)
         ) {
-            Text(text = "NAME: ${item?.name}")
-            Text(text = "COMPLETED: ${item?.completed}")
+            Text(text = "NAME: $item")
+            Text(text = "COMPLETED: ${item.completed}")
         }
     }
-
-
 }
 
 @Preview
@@ -66,12 +74,6 @@ fun DetailScreenPreview(
 ) {
     DetailScreen(
         DetailScreenViewModel(InMemoryRepository()),
-        TodoUiItem(
-            1234L,
-            "name1",
-            false,
-            isBeingModified = false
-        )
     )
 
 }

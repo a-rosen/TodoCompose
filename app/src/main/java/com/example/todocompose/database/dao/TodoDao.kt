@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.todocompose.database.models.TodoEntity
+import com.example.todocompose.repository.models.TodoDataRecord
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -26,4 +27,7 @@ interface TodoDao {
 
     @Query("UPDATE todo SET completed = NOT completed WHERE id = :id")
     fun toggleCompleted(id: Long)
+
+    @Query("SELECT * FROM todo WHERE id = :id")
+    fun getItemById(id: Long?) : TodoDataRecord
 }

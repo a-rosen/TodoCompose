@@ -138,15 +138,15 @@ class TodoListScreenViewModel @Inject constructor(
 
     }
 
-    fun selectAnItem(itemToSelect: TodoUiItem) {
-        _internalScreenStateFlow.update { oldState ->
-            TodoListScreenState(
-                oldState.newItemInputText,
-                oldState.toDoListItems,
-                selectedItem = itemToSelect
-            )
-        }
-    }
+//    fun selectAnItem(itemToSelect: TodoUiItem) {
+//        _internalScreenStateFlow.update { oldState ->
+//            TodoListScreenState(
+//                oldState.newItemInputText,
+//                oldState.toDoListItems,
+//                selectedItem = itemToSelect
+//            )
+//        }
+//    }
 
     private fun toggleIsBeingModified(itemToUpdate: TodoUiItem) {
         _internalScreenStateFlow.update { oldState ->

@@ -55,4 +55,8 @@ class DatabaseRepository @Inject constructor(
             todoDao.toggleCompleted(id)
         }
     }
+
+    override suspend fun getItemById(id: Long?): TodoDataRecord {
+        return todoDao.getItemById(id)
+    }
 }

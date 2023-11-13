@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
+import com.example.todocompose.ui.models.TodoUiItem
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
@@ -34,7 +35,8 @@ import com.example.todocompose.ui.components.ItemWithCheckbox
 
 @Composable
 fun TodoListScreen(
-    viewModel: TodoListScreenViewModel = hiltViewModel()
+    viewModel: TodoListScreenViewModel = hiltViewModel(),
+    navigateToDetailScreen: (TodoUiItem) -> Unit
 ) {
     val listScreenState by viewModel.screenStateFlow.collectAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -88,7 +90,7 @@ fun TodoListScreen(
                         onBoxClicked = { viewModel.toggleChecked(item) },
                         onDeleteClicked = { viewModel.onDeleteButtonClick(item) },
                         onEditClicked = { viewModel.onEditButtonClick(item) },
-                        onDetailsClicked = { viewModel.selectAnItem(item) },
+                        onDetailsClicked = { navigateToDetailScreen(item) },
                         onItemTextChanged = { viewModel.updateItemText(item.id, it) },
                         onEditSubmitted = { viewModel.onUpdateItemSubmit(item) }
                     )

@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.repository.TodoRepository
+import com.example.todocompose.ui.models.TodoUiItem
+import com.example.todocompose.ui.models.asTodoUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,16 +15,13 @@ import javax.inject.Inject
 class DetailScreenViewModel @Inject constructor(
     private val repository: TodoRepository,
     detailSavedStateHandle: SavedStateHandle
-
 ) : ViewModel() {
-
     private val itemId: Long =
         checkNotNull(detailSavedStateHandle[DetailsDestination.itemIdArg])
 
-    fun getItemById() {
+    fun getItemById() : TodoUiItem {
         viewModelScope.launch(Dispatchers.IO) {
-           repository.getItemById(itemId)
+            return@launch repository.getItemById(itemId).asTodoUiItem()
         }
     }
-
 }

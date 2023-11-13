@@ -15,9 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todocompose.navigation.NavigationDestination
-import com.example.todocompose.repository.InMemoryRepository
 
 // const means "its value is known at compilation"
 
@@ -27,10 +25,12 @@ object DetailsDestination : NavigationDestination {
     val routeWithArgs = "$route/{$itemIdArg}"
 }
 
+const val SCREEN_NAME_DETAIL = "com.example.todocompose.ui.screens.detail"
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun DetailScreen(
-    viewModel: DetailScreenViewModel = viewModel(),
+    viewModel: DetailScreenViewModel,
 ) {
 
     val item = viewModel.getItemById()
@@ -63,7 +63,7 @@ fun DetailScreen(
                 .consumeWindowInsets(innerPadding)
         ) {
             Text(text = "NAME: $item")
-            Text(text = "COMPLETED: ${item.completed}")
+            Text(text = "COMPLETED: ${item}")
         }
     }
 }
@@ -72,8 +72,8 @@ fun DetailScreen(
 @Composable
 fun DetailScreenPreview(
 ) {
-    DetailScreen(
-        DetailScreenViewModel(InMemoryRepository()),
-    )
+//    DetailScreen(
+//        DetailScreenViewModel(InMemoryRepository()),
+//    )
 
 }

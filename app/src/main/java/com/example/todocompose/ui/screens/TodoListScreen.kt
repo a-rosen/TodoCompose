@@ -21,9 +21,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todocompose.ui.components.InputField
 import com.example.todocompose.ui.components.ItemWithCheckbox
 import com.example.todocompose.ui.models.TodoUiItem
@@ -35,12 +33,11 @@ import com.example.todocompose.ui.models.TodoUiItem
 
 @Composable
 fun TodoListScreen(
-    viewModel: TodoListScreenViewModel = hiltViewModel(),
+    viewModel: TodoListScreenViewModel,
     navigateToDetailScreen: (TodoUiItem) -> Unit
 ) {
     val listScreenState by viewModel.screenStateFlow.collectAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
-
 
     Scaffold(
         topBar = {
@@ -100,9 +97,9 @@ fun TodoListScreen(
     }
 }
 
-@Preview
-@Composable
-fun MainScreenPreview(
-) {
-    TodoListScreen()
-}
+//@Preview
+//@Composable
+//fun MainScreenPreview(
+//) {
+//    TodoListScreen()
+//}

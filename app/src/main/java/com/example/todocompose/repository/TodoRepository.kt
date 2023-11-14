@@ -14,6 +14,6 @@ interface TodoRepository {
 
     suspend fun toggleCompleted(id: Long?)
 
-    suspend fun getItemById(id: Long?) : TodoDataRecord
+    suspend fun getItemById(id: Long?) : TodoDataRecord?
 
 }

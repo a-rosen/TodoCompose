@@ -64,7 +64,9 @@ class InMemoryRepository @Inject constructor() : TodoRepository {
         }
     }
 
-    override suspend fun getItemById(id: Long?): TodoDataRecord {
-        TODO("Not yet implemented")
+    override suspend fun getItemById(id: Long?): TodoDataRecord? {
+        val foundItem = _internalDataFlow.value
+            .find { it.id == id }
+        return foundItem
     }
 }

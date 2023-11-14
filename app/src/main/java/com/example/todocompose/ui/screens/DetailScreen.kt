@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.SavedStateHandle
 import com.example.todocompose.navigation.NavigationDestination
+import com.example.todocompose.repository.InMemoryRepository
 
 // const means "its value is known at compilation"
 
@@ -72,8 +74,11 @@ fun DetailScreen(
 @Composable
 fun DetailScreenPreview(
 ) {
-//    DetailScreen(
-//        DetailScreenViewModel(InMemoryRepository()),
-//    )
+    DetailScreen(
+        DetailScreenViewModel(
+            repository = InMemoryRepository(),
+            detailSavedStateHandle = SavedStateHandle()
+        ),
+    )
 
 }

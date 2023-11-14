@@ -3,8 +3,8 @@ package com.example.todocompose.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,13 +39,14 @@ fun ItemWithCheckbox(
 ) {
 
     Card(
+        elevation = CardDefaults.cardElevation(8.dp),
         modifier = Modifier
             .padding(4.dp)
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .defaultMinSize(minHeight = 56.dp)
                 .toggleable(
                     value = item.completed,
                     onValueChange = { onBoxClicked() },

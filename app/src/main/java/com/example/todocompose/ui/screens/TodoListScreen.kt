@@ -60,15 +60,10 @@ fun TodoListScreen(
         },
         bottomBar = {
             BottomAppBar {
-                InputField(
-                    onSubmit = {
-                        viewModel.onAddNewItemButtonClick()
-                    },
-                    onInputValueChange = {
-                        viewModel.updateNewItemInputText(it)
-                    },
-                    displayedText = listScreenState.newItemInputText,
-                    modifier = Modifier.padding(8.dp)
+                Text(
+                    "THIS IS THE BOTTOM BAR!",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -96,6 +91,16 @@ fun TodoListScreen(
                     )
                 }
             }
+            InputField(
+                onSubmit = {
+                    viewModel.onAddNewItemButtonClick()
+                },
+                onInputValueChange = {
+                    viewModel.updateNewItemInputText(it)
+                },
+                displayedText = listScreenState.newItemInputText,
+                modifier = Modifier.padding(8.dp)
+            )
         }
     }
 }

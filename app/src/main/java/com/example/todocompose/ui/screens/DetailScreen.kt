@@ -25,7 +25,7 @@ object DetailsDestination : NavigationDestination {
     val routeWithArgs = "$route/{$itemIdArg}"
 }
 
-const val SCREEN_NAME_DETAIL = "com.example.todocompose.ui.screens.detail"
+const val SCREEN_NAME_DETAIL = "DetailScreen"
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -62,8 +62,8 @@ fun DetailScreen(
                 .padding(innerPadding)
                 .consumeWindowInsets(innerPadding)
         ) {
-            Text(text = "NAME: $item")
-            Text(text = "COMPLETED: ${item}")
+            Text(text = "NAME: ${item?.name}")
+            Text(text = "COMPLETED: ${item?.completed}")
         }
     }
 }

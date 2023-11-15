@@ -138,6 +138,25 @@ class TodoListScreenViewModel @Inject constructor(
 
     }
 
+    fun toggleDropdown(itemToUpdate: TodoUiItem) {
+        _internalScreenStateFlow.update { oldState ->
+            val oldListItems = oldState.toDoListItems
+
+            val newListItems = oldListItems
+                .map { oldItem ->
+                    if (oldItem.id == itemToUpdate.id) {
+                        oldItem.copy(
+                            shouldShowDropdown = !oldItem.shouldShowDropdown)
+                    } else {
+                        oldItem
+                    }
+                }
+
+            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
+        }
+
+    }
+
     private fun toggleIsBeingModified(itemToUpdate: TodoUiItem) {
         _internalScreenStateFlow.update { oldState ->
             val oldListItems = oldState.toDoListItems
@@ -154,4 +173,6 @@ class TodoListScreenViewModel @Inject constructor(
             return@update TodoListScreenState(oldState.newItemInputText, newListItems)
         }
     }
+
+
 }

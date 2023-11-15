@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import com.example.todocompose.repository.InMemoryRepository
 import com.example.todocompose.ui.components.InputField
-import com.example.todocompose.ui.components.ItemWithCheckbox
+import com.example.todocompose.ui.components.ListItemCard
 import com.example.todocompose.ui.models.TodoUiItem
 
 @OptIn(
@@ -55,7 +55,9 @@ fun TodoListScreen(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
-                )
+                ),
+                modifier = Modifier
+                    .padding(bottom = 4.dp)
             )
         },
         bottomBar = {
@@ -68,7 +70,6 @@ fun TodoListScreen(
             }
         }
     ) { innerPadding ->
-
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -80,14 +81,10 @@ fun TodoListScreen(
                     .clickable { keyboardController?.hide() }
             ) {
                 items(listScreenState.toDoListItems) { item ->
-                    ItemWithCheckbox(
+                    ListItemCard(
                         item = item,
                         onBoxClicked = { viewModel.toggleChecked(item) },
-                        onDeleteClicked = { viewModel.onDeleteButtonClick(item) },
-                        onEditClicked = { viewModel.onEditButtonClick(item) },
-                        onDetailsClicked = { navigateToDetailScreen(item) },
-                        onItemTextChanged = { viewModel.updateItemText(item.id, it) },
-                        onEditSubmitted = { viewModel.onUpdateItemSubmit(item) }
+                        onDropdownIconClicked = { viewModel.toggleDropdown(item) }
                     )
                 }
             }

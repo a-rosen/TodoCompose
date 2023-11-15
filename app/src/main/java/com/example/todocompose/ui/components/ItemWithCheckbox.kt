@@ -127,6 +127,7 @@ fun ItemWithCheckboxPreview() {
             "this is my name",
             completed = true,
             isBeingModified = true,
+            shouldShowDropdown = false
         ),
         onBoxClicked = {},
         onDeleteClicked = {},

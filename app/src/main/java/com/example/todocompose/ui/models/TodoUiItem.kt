@@ -7,11 +7,13 @@ data class TodoUiItem(
     var name: String,
     var completed: Boolean,
     var isBeingModified: Boolean,
+    var shouldShowDropdown: Boolean,
 )
 
 fun TodoDataRecord.asTodoUiItem() = TodoUiItem(
     this.id,
     this.name,
     this.completed,
-    isBeingModified = false
+    isBeingModified = false,
+    shouldShowDropdown = false
 )

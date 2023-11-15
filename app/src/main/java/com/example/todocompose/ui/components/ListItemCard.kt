@@ -3,6 +3,7 @@ package com.example.todocompose.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.todocompose.ui.models.TodoUiItem
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.OutlinedTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,6 +30,11 @@ fun ListItemCard(
     item: TodoUiItem,
     onBoxClicked: () -> Unit,
     onDropdownIconClicked: () -> Unit,
+    onDeleteClicked: () -> Unit,
+    onEditClicked: () -> Unit,
+    onDetailsClicked: () -> Unit,
+    onItemTextChanged: (String) -> Unit,
+    onEditSubmitted: () -> Unit,
 ) {
     Card(
         elevation = CardDefaults.cardElevation(8.dp),
@@ -42,14 +49,27 @@ fun ListItemCard(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer
             ),
             headlineText = {
-                Text(
-                    text = item.name,
-                    textDecoration = if (item.completed) {
-                        TextDecoration.LineThrough
-                    } else {
-                        null
-                    }
-                )
+                if (item.isBeingModified) {
+                    OutlinedTextField(
+                        value = item.name,
+                        onValueChange = { onItemTextChanged(it) },
+                        label = { Text("Task") },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 4.dp)
+                    )
+                } else {
+                    Text(
+                        text = item.name,
+                        textDecoration = if (item.completed) {
+                            TextDecoration.LineThrough
+                        } else {
+                            null
+                        },
+                        modifier = Modifier
+                            .clickable { onBoxClicked() }
+                    )
+                }
             },
             leadingContent = {
                 Checkbox(
@@ -58,12 +78,22 @@ fun ListItemCard(
                 )
             },
             trailingContent = {
-                Icon(
-                    imageVector = Icons.Filled.MoreVert,
-                    contentDescription = "more actions",
-                    modifier = Modifier
-                        .clickable(onClick = onDropdownIconClicked)
-                )
+                if (item.isBeingModified) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = "submit edit",
+                        modifier = Modifier
+                            .clickable(onClick = onEditSubmitted)
+                    )
+
+                } else {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = "more actions",
+                        modifier = Modifier
+                            .clickable(onClick = onDropdownIconClicked)
+                    )
+                }
                 if (item.shouldShowDropdown) {
                     DropdownMenu(
                         expanded = true,
@@ -71,15 +101,15 @@ fun ListItemCard(
                     ) {
                         DropdownMenuItem(
                             text = { Text(text = "Details") },
-                            onClick = {}
+                            onClick = { onDetailsClicked() }
                         )
                         DropdownMenuItem(
                             text = { Text(text = "Edit") },
-                            onClick = {}
+                            onClick = { onEditClicked() }
                         )
                         DropdownMenuItem(
                             text = { Text(text = "Delete") },
-                            onClick = {}
+                            onClick = { onDeleteClicked() }
                         )
                     }
                 }
@@ -103,5 +133,10 @@ fun TodoListItemPreview() {
         ),
         onBoxClicked = {},
         onDropdownIconClicked = {},
+        onDeleteClicked = {},
+        onEditClicked = {},
+        onEditSubmitted = {},
+        onDetailsClicked = {},
+        onItemTextChanged = {},
     )
 }

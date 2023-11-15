@@ -110,7 +110,10 @@ class TodoListScreenViewModel @Inject constructor(
             val newListItems = oldListItems
                 .map { oldItem ->
                     if (oldItem.id == itemToUpdate.id) {
-                        oldItem.copy(isBeingModified = true)
+                        oldItem.copy(
+                            isBeingModified = true,
+                            shouldShowDropdown = false
+                        )
                     } else {
                         oldItem
                     }
@@ -123,17 +126,6 @@ class TodoListScreenViewModel @Inject constructor(
     fun toggleChecked(itemToChange: TodoUiItem) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.toggleCompleted(itemToChange.id)
-
-            _internalScreenStateFlow.update { oldState ->
-                val oldListItems = oldState.toDoListItems
-
-                val newListItems = oldListItems
-                    .filter { !it.completed } +
-                        oldListItems
-                            .filter { it.completed }
-
-                return@update TodoListScreenState(oldState.newItemInputText, newListItems)
-            }
         }
 
     }
@@ -146,7 +138,8 @@ class TodoListScreenViewModel @Inject constructor(
                 .map { oldItem ->
                     if (oldItem.id == itemToUpdate.id) {
                         oldItem.copy(
-                            shouldShowDropdown = !oldItem.shouldShowDropdown)
+                            shouldShowDropdown = !oldItem.shouldShowDropdown
+                        )
                     } else {
                         oldItem
                     }

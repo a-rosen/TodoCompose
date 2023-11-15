@@ -1,6 +1,5 @@
 package com.example.todocompose.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -40,7 +39,7 @@ fun TodoListScreen(
     navigateToDetailScreen: (TodoUiItem) -> Unit
 ) {
     val listScreenState by viewModel.screenStateFlow.collectAsState()
-    val keyboardController = LocalSoftwareKeyboardController.current
+//    val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
         topBar = {
@@ -78,13 +77,17 @@ fun TodoListScreen(
             LazyColumn(
                 modifier = Modifier
                     .weight(1f, true)
-                    .clickable { keyboardController?.hide() }
             ) {
                 items(listScreenState.toDoListItems) { item ->
                     ListItemCard(
                         item = item,
                         onBoxClicked = { viewModel.toggleChecked(item) },
-                        onDropdownIconClicked = { viewModel.toggleDropdown(item) }
+                        onDropdownIconClicked = { viewModel.toggleDropdown(item) },
+                        onDeleteClicked = { viewModel.onDeleteButtonClick(item) },
+                        onEditClicked = { viewModel.onEditButtonClick(item)},
+                        onEditSubmitted ={viewModel.onUpdateItemSubmit(item)},
+                        onDetailsClicked = {navigateToDetailScreen(item)},
+                        onItemTextChanged = {viewModel.updateItemText(item.id, it)}
                     )
                 }
             }

@@ -39,7 +39,6 @@ fun TodoListScreen(
     navigateToDetailScreen: (TodoUiItem) -> Unit
 ) {
     val listScreenState by viewModel.screenStateFlow.collectAsState()
-//    val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
         topBar = {

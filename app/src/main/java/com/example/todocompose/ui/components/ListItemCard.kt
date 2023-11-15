@@ -2,6 +2,7 @@ package com.example.todocompose.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.MoreVert
@@ -66,8 +67,6 @@ fun ListItemCard(
                         } else {
                             null
                         },
-                        modifier = Modifier
-                            .clickable { onBoxClicked() }
                     )
                 }
             },

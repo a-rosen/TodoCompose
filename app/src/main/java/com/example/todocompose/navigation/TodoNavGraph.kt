@@ -26,7 +26,7 @@ fun TodoNavGraph(
                 viewModel = hiltViewModel(),
                 navigateToDetailScreen = {
                     navController.navigate("$SCREEN_NAME_DETAIL/${it.id}")
-                }
+                },
             )
         }
         composable(

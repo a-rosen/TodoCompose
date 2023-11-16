@@ -1,6 +1,5 @@
 package com.example.todocompose.ui.screens
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todocompose.repository.TodoRepository
@@ -20,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class TodoListScreenViewModel @Inject constructor(
     private val repository: TodoRepository,
-    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _internalScreenStateFlow =
         MutableStateFlow<TodoListScreenState>(value = TodoListScreenState.EMPTY)
@@ -34,7 +32,8 @@ class TodoListScreenViewModel @Inject constructor(
                     _internalScreenStateFlow.update {
                         TodoListScreenState(
                             "",
-                            records.map { it.asTodoUiItem() }
+                            records.map { it.asTodoUiItem() },
+                            itemIsBeingAdded = false
                         )
                     }
                 }
@@ -43,7 +42,11 @@ class TodoListScreenViewModel @Inject constructor(
 
     fun updateNewItemInputText(newText: String) {
         _internalScreenStateFlow.update { oldState ->
-            TodoListScreenState(newText, oldState.toDoListItems)
+            TodoListScreenState(
+                newText,
+                oldState.toDoListItems,
+                oldState.itemIsBeingAdded
+            )
         }
     }
 
@@ -59,7 +62,11 @@ class TodoListScreenViewModel @Inject constructor(
                         oldItem
                     }
                 }
-            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
+            return@update TodoListScreenState(
+                oldState.newItemInputText,
+                newListItems,
+                oldState.itemIsBeingAdded
+            )
         }
     }
 
@@ -87,6 +94,8 @@ class TodoListScreenViewModel @Inject constructor(
             name = _internalScreenStateFlow.value.newItemInputText,
             completed = false
         )
+        toggleItemBeingAdded()
+
         if (newTodoItem.name == "") {
             return
         } else {
@@ -119,7 +128,11 @@ class TodoListScreenViewModel @Inject constructor(
                     }
                 }
 
-            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
+            return@update TodoListScreenState(
+                oldState.newItemInputText,
+                newListItems,
+                oldState.itemIsBeingAdded
+            )
         }
     }
 
@@ -145,7 +158,11 @@ class TodoListScreenViewModel @Inject constructor(
                     }
                 }
 
-            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
+            return@update TodoListScreenState(
+                oldState.newItemInputText,
+                newListItems,
+                oldState.itemIsBeingAdded
+            )
         }
 
     }
@@ -163,7 +180,21 @@ class TodoListScreenViewModel @Inject constructor(
                     }
                 }
 
-            return@update TodoListScreenState(oldState.newItemInputText, newListItems)
+            return@update TodoListScreenState(
+                oldState.newItemInputText,
+                newListItems,
+                oldState.itemIsBeingAdded
+            )
+        }
+    }
+
+    fun toggleItemBeingAdded() {
+        _internalScreenStateFlow.update { oldState ->
+            return@update TodoListScreenState(
+                oldState.newItemInputText,
+                oldState.toDoListItems,
+                !oldState.itemIsBeingAdded
+            )
         }
     }
 

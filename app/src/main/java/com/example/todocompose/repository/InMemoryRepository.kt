@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import kotlin.random.Random
 
 /**
  * An implementation of the Repository interface that doesn't save anything long-term, it
@@ -15,6 +16,7 @@ class InMemoryRepository @Inject constructor() : TodoRepository {
     override val dataFlow = _internalDataFlow.asStateFlow()
 
     override suspend fun addItem(todoItem: TodoDataRecord) {
+        todoItem.id = Random.nextLong()
         val newList = _internalDataFlow.value + listOf(todoItem)
 
         _internalDataFlow.update {

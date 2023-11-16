@@ -3,7 +3,7 @@ package com.example.todocompose.repository.models
 import com.example.todocompose.ui.models.TodoUiItem
 
 data class TodoDataRecord(
-    val id: Long?,
+    var id: Long?,
     val name: String,
     val completed: Boolean
 )
